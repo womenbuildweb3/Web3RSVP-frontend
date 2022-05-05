@@ -3,7 +3,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Navbar({preferedColorScheme}) {
+export default function Navbar({ preferedColorScheme }) {
   return (
     <Disclosure as="nav" className="">
       {({ open }) => (
@@ -35,42 +35,21 @@ export default function Navbar({preferedColorScheme}) {
                 )}
                 <Link className="hidden sm:block" href="/" passHref>
                   <div className="hidden sm:block cursor-pointer font-poppins-bold text-xl">
-                    Women Build Web3
+                    web3rsvp
                   </div>
                 </Link>
               </div>
 
               <div className="hidden md:block md:ml-6">
                 <div className="flex">
-                  <Link href="/about" passHref>
-                    <p className="cursor-pointer px-3 py-2 rounded-full text-xl">
-                      About
-                    </p>
-                  </Link>
-                  <Link href="/" passHref>
-                    <p className="cursor-pointer px-3 py-2 rounded-full text-xl">
-                      30 Days of Web3
-                    </p>
-                  </Link>
-
-                  <Link href="/blog" passHref>
-                    <p className="cursor-pointer px-3 py-2 rounded-full text-xl">
-                      Blog
-                    </p>
-                  </Link>
-                </div>
-              </div>
-              <div className="hidden md:block md:ml-6">
-                <div className="flex">
-                  <Link href="/contact" passHref>
-                    <p className="cursor-pointer px-3 py-2 rounded-full text-xl font-medium">
-                      Contact
-                    </p>
-                  </Link>
-
                   <Link href="/contact" passHref>
                     <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
-                      Join us
+                      Create Wallet
+                    </a>
+                  </Link>
+                  <Link href="/contact" passHref>
+                    <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
+                      Create Event
                     </a>
                   </Link>
                 </div>
@@ -78,7 +57,7 @@ export default function Navbar({preferedColorScheme}) {
               <div className="flex items-center gap-4 md:hidden">
                 <Link href="/contact" passHref>
                   <a className="px-4 h-8 grid place-items-center cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full">
-                    Join us
+                    Create Event
                   </a>
                 </Link>
 
@@ -102,39 +81,6 @@ export default function Navbar({preferedColorScheme}) {
               </div>
             </div>
           </div>
-          <Disclosure.Panel className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Disclosure.Button
-                as="a"
-                href="/"
-                className="cursor-pointer active:bg-black px-3 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white"
-              >
-                Home
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="/about"
-                className="cursor-pointer active:bg-black px-3 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white"
-              >
-                About
-              </Disclosure.Button>
-              <Disclosure.Button
-                href="/blog"
-                as="a"
-                className="cursor-pointer active:bg-black px-3 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white"
-              >
-                Blog
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="/contact"
-                className="cursor-pointer active:bg-black px-3 py-2 rounded-md text-sm font-medium hover:bg-black hover:text-white"
-              >
-                Contact
-              </Disclosure.Button>
-            </div>
-            <div className="pt-4 pb-3 border-t border-gray-700"></div>
-          </Disclosure.Panel>
         </>
       )}
     </Disclosure>
