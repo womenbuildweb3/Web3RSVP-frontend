@@ -6,7 +6,7 @@
 
 2. In your account's forked github repo, click the "Code" button and copy the repo link.
 
-3. Open your terminal. `git clone https://github.com/YourGithubUsername/official-website.git`
+3. Open your terminal. `https://github.com/womenbuildweb3/Web3RSVP-frontend.git`
 
 4. CD into the repo `cd Web3RSVP-frontend`
 
