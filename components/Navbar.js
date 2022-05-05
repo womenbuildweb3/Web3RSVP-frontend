@@ -44,7 +44,7 @@ export default function Navbar({ preferedColorScheme }) {
                 <div className="flex">
                   <Link href="/contact" passHref>
                     <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
-                      Create Wallet
+                      Connect Wallet
                     </a>
                   </Link>
                   <Link href="/contact" passHref>
