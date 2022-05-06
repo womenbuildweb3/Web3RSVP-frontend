@@ -12,8 +12,8 @@ export default function Footer({ preferedColorScheme }) {
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-3">
-          <div className="flex mb-8 sm:mb-0 flex-col gap-4">
+        <div className="grid sm:grid-cols-2">
+          <div className="flex mb-6 sm:mb-0 flex-col gap-4">
             <Link href="/" passHref>
               <div className="cursor-pointer max-w-[160px]">
                 30 Days of Web3
