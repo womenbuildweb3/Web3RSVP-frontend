@@ -54,13 +54,11 @@ export default function Home() {
         <li class="relative">
           {" "}
           <select
-            id="location"
-            name="location"
+            id="date"
+            name="date"
             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
           >
-            <option>United States</option>
-            <option selected>Canada</option>
-            <option>Mexico</option>
+            <option selected>All Dates</option>
           </select>
         </li>
         <li class="relative">
