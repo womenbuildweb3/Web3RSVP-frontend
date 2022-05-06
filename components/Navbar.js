@@ -42,7 +42,7 @@ export default function Navbar({ preferedColorScheme }) {
 
               <div className="hidden md:block md:ml-6">
                 <div className="flex">
-                  <Link href="/contact" passHref>
+                  <Link href="/createEvent" passHref>
                     <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
                       Create Event
                     </a>
@@ -58,6 +58,11 @@ export default function Navbar({ preferedColorScheme }) {
                 <Link href="/contact" passHref>
                   <a className="px-4 h-8 grid place-items-center cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full">
                     Create Event
+                  </a>
+                </Link>
+                <Link href="/contact" passHref>
+                  <a className="px-4 h-8 grid place-items-center cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full">
+                    Connect Wallet
                   </a>
                 </Link>
 

@@ -33,13 +33,172 @@ export default function Home() {
 
       <Navbar preferedColorScheme={preferedColorScheme} />
 
-      <header className="mt-24 min-w-[300px] sm:mt-8 mb-44 grid gap-4 sm:gap-8">
-        <div className="grid font-poppins-bold text-3xl sm:text-6xl leading-tight">
-          <div>Discover what's happening in the metaverse</div>
-        </div>
-      </header>
+      <div className="grid font-poppins-bold text-3xl sm:text-6xl leading-tight">
+        <div>Discover what's happening in the metaverse</div>
+      </div>
+      <br />
+      <p>Find, join and create virtual events with your web3 frens!</p>
+      <br />
+      <ul
+        role="list"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <li class="relative">
+          <div>
+            <input
+              class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
+              placeholder="Search for all events"
+            />
+          </div>
+        </li>
+        <li class="relative">
+          {" "}
+          <select
+            id="location"
+            name="location"
+            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
+          >
+            <option>United States</option>
+            <option selected>Canada</option>
+            <option>Mexico</option>
+          </select>
+        </li>
+        <li class="relative">
+          <input
+            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
+            placeholder="Search"
+          />
+        </li>
+      </ul>
 
-      <section className="mb-44 grid sm:grid-cols-2 gap-8"></section>
+      <br />
+      <div className="grid font-poppins-bold text-2xl sm:text-2xl leading-tight">
+        <div>Hottest Events</div>
+      </div>
+      <br />
+      <ul
+        role="list"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-bold text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-bold text-white-500 pointer-events-none">
+            Eth Denver
+          </p>
+        </li>
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-medium text-white-500 pointer-events-none">
+            Eth Denver
+          </p>
+        </li>
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-medium text-white-00 pointer-events-none">
+            Eth Denver
+          </p>
+        </li>
+      </ul>
+      <br />
+      <div className="grid font-poppins-bold text-2xl sm:text-2xl leading-tight">
+        <div>Just Added</div>
+      </div>
+      <br />
+      <ul
+        role="list"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-medium text-white-500 pointer-events-none">
+            Eth Spain
+          </p>
+        </li>
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-medium text-white-500 pointer-events-none">
+            Eth Denver
+          </p>
+        </li>
+        <li class="relative">
+          <div class="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-100"
+            />
+            <button type="button" class="absolute inset-0 focus:outline-none">
+              <span class="sr-only">View details for IMG_4985.HEIC</span>
+            </button>
+          </div>
+          <p class="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
+            TUE -OCT 4 -8:00PM
+          </p>
+          <p class="block text-sm font-medium text-white-500 pointer-events-none">
+            Eth Spain
+          </p>
+        </li>
+      </ul>
 
       <section className="max-w-5xl mb-44 flex flex-col-reverse sm:flex-row m-auto gap-8"></section>
 
