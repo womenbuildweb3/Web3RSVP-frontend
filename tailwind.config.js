@@ -7,14 +7,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "poppins-bold": ["Poppins Bold", ...defaultTheme.fontFamily.sans],
-        "poppins-semi-bold": [
-          "Poppins SemiBold",
-          ...defaultTheme.fontFamily.sans,
-        ],
+        serif: ["Space Grotesk", ...defaultTheme.fontFamily.serif],
       },
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [require("@tailwindcss/aspect-ratio")],
 };

@@ -3,91 +3,31 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Navbar({ preferedColorScheme }) {
+export default function Navbar() {
   return (
-    <Disclosure as="nav" className="">
-      {({ open }) => (
-        <>
-          <div className="mx-auto">
-            <div className="flex items-center justify-between h-16 ">
-              <div className="sm:flex sm:items-center sm:gap-4">
-                {preferedColorScheme === "light" && (
-                  <Link href="/" passHref>
-                    <Image
-                      className="cursor-pointer"
-                      alt="Women Build Web3 Logo"
-                      src="/logos/Logo-Fill.png"
-                      height="40px"
-                      width="40px"
-                    />
-                  </Link>
-                )}
-                {preferedColorScheme === "dark" && (
-                  <Link href="/" passHref>
-                    <Image
-                      className="cursor-pointer"
-                      alt="Women Build Web3 Logo"
-                      src="/logos/logo-white.png"
-                      height="40px"
-                      width="40px"
-                    />
-                  </Link>
-                )}
-                <Link className="hidden sm:block" href="/" passHref>
-                  <div className="hidden sm:block cursor-pointer font-poppins-bold text-xl">
-                    web3rsvp
-                  </div>
-                </Link>
-              </div>
-
-              <div className="hidden md:block md:ml-6">
-                <div className="flex">
-                  <Link href="/createEvent" passHref>
-                    <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
-                      Create Event
-                    </a>
-                  </Link>
-                  <Link href="/" passHref>
-                    <a className="cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full text-xl px-3 py-2">
-                      Connect Wallet
-                    </a>
-                  </Link>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 md:hidden">
-                {/* <Link href="/contact" passHref>
-                  <a className="px-4 h-4 grid place-items-right cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full">
-                    Create Event
-                  </a>
-                </Link> */}
-                <Link href="/" passHref>
-                  <a className="px-4 h-8 grid place-items-right cursor-pointer dark:hover:text-black dark:hover:bg-white hover:text-white hover:bg-black border border-black dark:border-white border-solid rounded-full">
-                    Connect Wallet
-                  </a>
-                </Link>
-
-                <div className="-mr-2 flex">
-                  {/* Mobile menu button */}
-                  <Disclosure.Button className="link inline-flex items-center justify-center p-2 rounded-md hover:text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XIcon
-                        className="block h-8 w-8 mobile-menu-button"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <MenuIcon
-                        className="block h-8 w-8 mobile-menu-button"
-                        aria-hidden="true"
-                      />
-                    )}
-                  </Disclosure.Button>
-                </div>
-              </div>
-            </div>
+    <header className="bg-white border-b-2 border-gray-100">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
+        <div className="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
+          <div className="flex items-center">
+            <Link href="/">
+              <a>web3rsvp</a>
+            </Link>
           </div>
-        </>
-      )}
-    </Disclosure>
+          <div className="ml-10 space-x-4">
+            <Link href="/create-event">
+              <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Create Event
+              </a>
+            </Link>
+            <a
+              href="#"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Connect Wallet
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 }

@@ -1,226 +1,76 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import Layout from "../components/Layout";
 import Link from "next/link";
 import Image from "next/image";
+import EventCard from "../components/EventCard";
 
 export default function Home() {
-  const [preferedColorScheme, setPreferedColorScheme] = useState("light");
-
-  useEffect(() => {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      setPreferedColorScheme("dark");
-    }
-  }, []);
-
   return (
-    <Layout>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
         <title>web3rsvp</title>
         <meta
           name="description"
-          content="Providing education, oppportunities, and funding to a new wave of web3 builders"
+          content="Find, join, and create virtual events with your web3 frens"
         />
-        {preferedColorScheme === "light" && (
-          <link rel="icon" href="/favicon.ico" />
-        )}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Navbar preferedColorScheme={preferedColorScheme} />
-
-      <div className="grid font-poppins-bold text-3xl sm:text-6xl leading-tight">
-        <div>Discover what&apos;s happening in the metaverse</div>
-      </div>
-      <br />
-      <p>Find, join and create virtual events with your web3 frens!</p>
-      <br />
-      <ul
-        role="list"
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <li className="relative">
-          <div>
-            <input
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
-              placeholder="Search for all events"
-            />
-          </div>
-        </li>
-        <li className="relative">
-          {" "}
-          <select
-            id="date"
-            name="date"
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
-          >
-            <option selected>All Dates</option>
-          </select>
-        </li>
-        <li className="relative">
+      <section className="py-12">
+        <div className="w-full md:w-8/12 text-left">
+          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <span>Discover what&apos;s happening in the </span>
+            <span className="text-indigo-600">metaverse</span>
+          </h1>
+          <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            Find, join, and create virtual events with your web3 frens!
+          </p>
+        </div>
+        <form action="#" method="POST" className="mt-8 sm:flex">
+          <label htmlFor="email" className="sr-only">
+            Email
+          </label>
           <input
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-full"
-            placeholder="Search"
-          />
-        </li>
-      </ul>
-
-      <br />
-      <div className="grid font-poppins-bold text-2xl sm:text-2xl leading-tight">
-        <div>Hottest Events</div>
-      </div>
-      <br />
-      <ul
-        role="list"
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-bold text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-bold text-white-500 pointer-events-none">
-            Eth Denver
-          </p>
-        </li>
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-medium text-white-500 pointer-events-none">
-            Eth Denver
-          </p>
-        </li>
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-medium text-white-00 pointer-events-none">
-            Eth Denver
-          </p>
-        </li>
-      </ul>
-      <br />
-      <div className="grid font-poppins-bold text-2xl sm:text-2xl leading-tight">
-        <div>Just Added</div>
-      </div>
-      <br />
-      <ul
-        role="list"
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-medium text-white-500 pointer-events-none">
-            Eth Spain
-          </p>
-        </li>
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-medium text-white-500 pointer-events-none">
-            Eth Denver
-          </p>
-        </li>
-        <li className="relative">
-          <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-              alt=""
-              className="object-cover pointer-events-none group-hover:opacity-100"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 focus:outline-none"
-            >
-              <span className="sr-only">View details for IMG_4985.HEIC</span>
-            </button>
-          </div>
-          <p className="mt-2 block text-sm font-medium text-white-900 truncate pointer-events-none">
-            TUE -OCT 4 -8:00PM
-          </p>
-          <p className="block text-sm font-medium text-white-500 pointer-events-none">
-            Eth Spain
-          </p>
-        </li>
-      </ul>
-
-      <section className="max-w-5xl mb-44 flex flex-col-reverse sm:flex-row m-auto gap-8"></section>
-
-      <section className="mb-44"></section>
-
-      <Footer preferedColorScheme={preferedColorScheme} />
-    </Layout>
+            type="email"
+            name="email"
+            id="email"
+            className="block w-full py-3 text-base rounded-md placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:flex-1 border border-gray-300"
+            placeholder="Enter your email"
+          ></input>
+          <button
+            type="submit"
+            className="mt-3 w-full px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:flex-shrink-0 sm:inline-flex sm:items-center sm:w-auto"
+          >
+            Search
+          </button>
+        </form>
+      </section>
+      <section className="py-12">
+        <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
+          Hottest Events
+        </h2>
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+        >
+          <li>
+            <EventCard title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"} />
+          </li>
+        </ul>
+      </section>
+      <section className="py-12">
+        <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
+          Just Added
+        </h2>
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+        >
+          <li>
+            <EventCard title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"} />
+          </li>
+        </ul>
+      </section>
+    </div>
   );
 }
