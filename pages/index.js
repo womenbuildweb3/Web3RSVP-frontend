@@ -34,8 +34,8 @@ export default function Home() {
             type="text"
             name="event"
             id="event"
-            className="block w-full py-3 text-base rounded-full placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:flex-1 border border-gray-300"
-            placeholder="Search Events"
+            className="block w-full p-3 text-base rounded-full placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:flex-1 border border-gray-300"
+            placeholder="Search for events"
           ></input>
           <button
             type="submit"
