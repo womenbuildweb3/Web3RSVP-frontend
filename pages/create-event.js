@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function CreateEvent() {
+  const [value, onChange] = useState(new Date());
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
@@ -23,40 +24,52 @@ export default function CreateEvent() {
                   <div className="space-y-6 sm:space-y-5">
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
-                        htmlFor="email"
+                        htmlFor="eventname"
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Event name
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                          id="eventname"
+                          name="eventname"
+                          type="text"
+                          autoComplete="eventname"
+                          className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
 
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
-                        htmlFor="country"
+                        htmlFor="date"
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Date & time
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          Your event date and time
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
-                        <select
-                          id="country"
-                          name="country"
-                          autoComplete="country-name"
-                          className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                        >
-                          <option>United States</option>
-                          <option>Canada</option>
-                          <option>Mexico</option>
-                        </select>
+                        <div className="sm:col-span-1">
+                          <input
+                            id="date"
+                            name="date"
+                            type="date"
+                            autoComplete="date"
+                            className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
+                            required
+                          />
+                        </div>
+                        <div className="sm:col-span-1">
+                          <input
+                            id="time"
+                            name="time"
+                            type="time"
+                            autoComplete="time"
+                            className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -66,32 +79,40 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Max capacity
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          Limit the number of spots available for your event.
+                          Leave blank to allow unlimited spots
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
-                          type="text"
-                          name="city"
-                          id="city"
+                          type="number"
+                          maxLength={200}
+                          name="maxcapacity"
+                          id="maxcapacity"
                           autoComplete="address-level2"
-                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
 
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
-                        htmlFor="city"
+                        htmlFor="cost"
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Cost per attendee
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          The cost of one spot at your event (in ETH)
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
                           type="text"
-                          name="city"
-                          id="city"
+                          name="cost"
+                          id="cost"
                           autoComplete="address-level2"
-                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
@@ -102,14 +123,18 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Refundable deposit
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          Require a refundable deposit (in ETH) to reserve one
+                          spot at your event
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
                           type="text"
-                          name="region"
-                          id="region"
-                          autoComplete="address-level1"
-                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                          name="refundable"
+                          id="refundable"
+                          autoComplete="refundable"
+                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
@@ -120,14 +145,18 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Max RSVPs per attendee
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          Limit the number of RSVPs an attendee can have
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
-                          type="text"
-                          name="postal-code"
-                          id="postal-code"
-                          autoComplete="postal-code"
-                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                          type="number"
+                          maxLength={200}
+                          name="maxrsvp"
+                          id="maxrsvp"
+                          autoComplete="maxrsvp"
+                          className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
@@ -138,14 +167,17 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Event link
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          The link for your virtual event
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
-                          id="email"
-                          name="email"
+                          id="eventlink"
+                          name="eventlink"
                           type="email"
-                          autoComplete="email"
-                          className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                          autoComplete="eventlink"
+                          className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-full"
                         />
                       </div>
                     </div>
@@ -156,6 +188,9 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Cover photo
+                        <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                          Please add a cover photo
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <div className="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -177,7 +212,7 @@ export default function CreateEvent() {
                             <div className="flex text-sm text-gray-600">
                               <label
                                 htmlFor="file-upload"
-                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                className="relative cursor-pointer bg-white rounded-full font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                               >
                                 <span>Upload a file</span>
                                 <input
@@ -203,18 +238,18 @@ export default function CreateEvent() {
                         className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                       >
                         Event description
+                        <p className="mt-2 text-sm text-gray-400">
+                          Let people know what your event is about!
+                        </p>
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <textarea
                           id="about"
                           name="about"
-                          rows={3}
+                          rows={10}
                           className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                           defaultValue={""}
                         />
-                        <p className="mt-2 text-sm text-gray-500">
-                          Let people know what your event is about!
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -227,13 +262,13 @@ export default function CreateEvent() {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Save
               </button>
