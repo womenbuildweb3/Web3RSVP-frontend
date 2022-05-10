@@ -11,11 +11,11 @@ export default function Navbar() {
     useWeb3React();
 
   async function connect() {
-    const btn = document.getElementById("btn");
-    btn.style.display = "none";
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
+      const btn = document.getElementById("btn");
+      btn.style.display = "none";
       const btndisconnect = document.getElementById("btndisconnect");
       btndisconnect.style.display = "inline";
     } catch (ex) {
@@ -37,7 +37,7 @@ export default function Navbar() {
     const connectWalletOnPageLoad = async () => {
       if (localStorage?.getItem("isWalletConnected") === "true") {
         try {
-          await activate(injected);
+          // deactivate(injected);
           localStorage.setItem("isWalletConnected", true);
         } catch (ex) {
           console.log(ex);
@@ -45,7 +45,7 @@ export default function Navbar() {
       }
     };
     connectWalletOnPageLoad();
-  }, [activate]);
+  }, []);
   return (
     <header className="bg-white border-b-2 border-gray-100">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
@@ -75,7 +75,7 @@ export default function Navbar() {
                   <button
                     id="btndisconnect"
                     onClick={disconnect}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hidden"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Disconnect Wallet
                   </button>
@@ -86,6 +86,11 @@ export default function Navbar() {
                   Visit Dashboard
                 </a> */
                 }
+                <Link href="/dashboard">
+                  <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Visit Dashboard
+                  </a>
+                </Link>
               </span>
             ) : (
               <span>Not connected</span>
