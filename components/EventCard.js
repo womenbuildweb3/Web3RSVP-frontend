@@ -15,7 +15,7 @@ export default function EventCard({ eid, title }) {
         </button>
       </div>
       <p className="mt-2 block text-sm font-medium text-gray-500 pointer-events-none">
-        Time
+        TUE · OCT 4 · 8:00 PM
       </p>
       <Link href={`/event/${eid}`}>
         <a className="block text-base text-gray-900">{title}</a>
