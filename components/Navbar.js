@@ -11,15 +11,21 @@ export default function Navbar() {
     useWeb3React();
 
   async function connect() {
+    const btn = document.getElementById("btn");
+    btn.style.display = "none";
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
+      const btndisconnect = document.getElementById("btndisconnect");
+      btndisconnect.style.display = "inline";
     } catch (ex) {
       console.log(ex);
     }
   }
 
   async function disconnect() {
+    const btn = document.getElementById("btn");
+    btn.style.display = "inline";
     try {
       deactivate();
       localStorage.setItem("isWalletConnected", false);
@@ -57,13 +63,29 @@ export default function Navbar() {
             </Link>
             <button
               onClick={connect}
+              id="btn"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Connect Wallet
             </button>
             {active ? (
-              <span>
-                Connected with <b>{account}</b>
+              <span className="text-xs">
+                Connected : <b>{account}</b>{" "}
+                {
+                  <button
+                    id="btndisconnect"
+                    onClick={disconnect}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hidden"
+                  >
+                    Disconnect Wallet
+                  </button>
+                  /* <a
+                  href="/dashboard"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Visit Dashboard
+                </a> */
+                }
               </span>
             ) : (
               <span>Not connected</span>
