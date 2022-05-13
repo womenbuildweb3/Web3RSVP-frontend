@@ -27,11 +27,11 @@ export default function CreateEvent() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  id="eventname"
-                  name="eventname"
+                  id="event-name"
+                  name="event-name"
                   type="text"
-                  autoComplete="eventname"
                   className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                  required
                 />
               </div>
             </div>
@@ -52,7 +52,6 @@ export default function CreateEvent() {
                     id="date"
                     name="date"
                     type="date"
-                    autoComplete="date"
                     className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                     required
                   />
@@ -62,8 +61,8 @@ export default function CreateEvent() {
                     id="time"
                     name="time"
                     type="time"
-                    autoComplete="time"
                     className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    required
                   />
                 </div>
               </div>
@@ -71,7 +70,7 @@ export default function CreateEvent() {
 
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
-                htmlFor="city"
+                htmlFor="max-capacity"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Max capacity
@@ -83,10 +82,10 @@ export default function CreateEvent() {
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
                   type="number"
-                  maxLength={200}
-                  name="maxcapacity"
-                  id="maxcapacity"
-                  autoComplete="address-level2"
+                  name="max-capacity"
+                  id="max-capacity"
+                  min="1"
+                  placeholder="Unlimited"
                   className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                 />
               </div>
@@ -94,7 +93,7 @@ export default function CreateEvent() {
 
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
-                htmlFor="cost"
+                htmlFor="ticket-cost"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Cost per attendee
@@ -104,10 +103,13 @@ export default function CreateEvent() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  type="text"
-                  name="cost"
-                  id="cost"
-                  autoComplete="address-level2"
+                  type="number"
+                  name="ticket-cost"
+                  id="ticket-cost"
+                  min="0"
+                  step="any"
+                  inputMode="decimal"
+                  placeholder="0.00"
                   className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                 />
               </div>
@@ -115,7 +117,7 @@ export default function CreateEvent() {
 
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
-                htmlFor="region"
+                htmlFor="refundable-deposit"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Refundable deposit
@@ -126,10 +128,13 @@ export default function CreateEvent() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  type="text"
-                  name="refundable"
-                  id="refundable"
-                  autoComplete="refundable"
+                  type="number"
+                  name="refundable-deposit"
+                  id="refundable-deposit"
+                  min="0"
+                  step="any"
+                  inputMode="decimal"
+                  placeholder="0.00"
                   className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                 />
               </div>
@@ -137,7 +142,7 @@ export default function CreateEvent() {
 
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
-                htmlFor="postal-code"
+                htmlFor="max-rsvp"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Max RSVPs per attendee
@@ -148,10 +153,10 @@ export default function CreateEvent() {
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
                   type="number"
-                  maxLength={200}
-                  name="maxrsvp"
-                  id="maxrsvp"
-                  autoComplete="maxrsvp"
+                  name="max-rsvp"
+                  id="max-rsvp"
+                  min="1"
+                  placeholder="1"
                   className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                 />
               </div>
@@ -159,7 +164,7 @@ export default function CreateEvent() {
 
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
-                htmlFor="email"
+                htmlFor="event-link"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Event link
@@ -169,10 +174,9 @@ export default function CreateEvent() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  id="eventlink"
-                  name="eventlink"
-                  type="email"
-                  autoComplete="eventlink"
+                  id="event-link"
+                  name="event-link"
+                  type="text"
                   className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                 />
               </div>
@@ -252,17 +256,16 @@ export default function CreateEvent() {
 
           <div className="pt-5">
             <div className="flex justify-end">
-              <button
-                type="button"
-                className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Cancel
-              </button>
+              <Link href="/">
+                <a className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Cancel
+                </a>
+              </Link>
               <button
                 type="submit"
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Save
+                Create
               </button>
             </div>
           </div>
