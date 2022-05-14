@@ -9,7 +9,10 @@ export default function CreateEvent() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
         <title>Create your event | web3rsvp</title>
-        <meta name="description" content="Create your event" />
+        <meta
+          name="description"
+          content="Create your virtual event on the blockchain"
+        />
       </Head>
       <section className="py-12">
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
