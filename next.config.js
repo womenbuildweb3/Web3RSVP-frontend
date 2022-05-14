@@ -6,6 +6,16 @@ module.exports = {
         destination: "/dashboard/my-events/upcoming",
         permanent: true,
       },
+      {
+        source: "/dashboard/my-events",
+        destination: "/dashboard/my-events/upcoming",
+        permanent: true,
+      },
+      {
+        source: "/dashboard/my-rsvps",
+        destination: "/dashboard/my-rsvps/upcoming",
+        permanent: true,
+      },
     ];
   },
   images: {
