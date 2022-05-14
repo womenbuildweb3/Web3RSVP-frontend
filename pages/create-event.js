@@ -10,7 +10,6 @@ export default function CreateEvent() {
       <Head>
         <title>Create your event | web3rsvp</title>
         <meta name="description" content="Create your event" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="py-12">
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">

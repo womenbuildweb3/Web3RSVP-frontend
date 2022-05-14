@@ -14,7 +14,6 @@ export default function Home() {
           name="description"
           content="Find, join, and create virtual events with your web3 frens"
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="py-12">
         <div className="w-full md:w-8/12 text-left">
