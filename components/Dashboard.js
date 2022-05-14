@@ -21,8 +21,8 @@ export default function Dashboard({ navigation, title, tabs, children }) {
         <title>My Dashboard | web3rsvp</title>
         <meta name="description" content="Manage your events and RSVPs" />
       </Head>
-      <div className="flex py-8">
-        <nav className="space-y-1 w-2/12" aria-label="Sidebar">
+      <div className="flex flex-wrap py-8">
+        <nav className="space-y-1 w-60 mb-8 sm:w-2/12" aria-label="Sidebar">
           {navigation.map((item) => (
             <a
               key={item.name}
@@ -39,7 +39,7 @@ export default function Dashboard({ navigation, title, tabs, children }) {
             </a>
           ))}
         </nav>
-        <div className="w-10/12 pl-8">
+        <div className="sm:w-10/12 sm:pl-8">
           <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-4">
             {title}
           </h1>
