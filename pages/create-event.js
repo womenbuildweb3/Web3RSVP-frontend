@@ -11,27 +11,22 @@ export default function CreateEvent() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const obj = {
+    const body = {
       name: eventName,
       description: eventDescription,
       link: eventLink,
     };
 
-    const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
-    const file = new File([blob], "eventdata.json");
-
-    let formData = new FormData();
-    formData.append("eventfile", file);
-
     try {
       const response = await fetch("/api/create-event", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
       if (response.status !== 200) {
         alert("Oops! Something went wrong. Please refresh and try again.");
       } else {
-        alert("Thank god");
+        alert("Form successfully submitted!");
       }
       // check response, if success is false, dont take them to success page
     } catch (error) {
