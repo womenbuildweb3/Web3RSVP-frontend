@@ -16,7 +16,7 @@ async function createEvent(req, res) {
     const files = makeFileObjects(body);
     const cid = await storeFiles(files);
     console.log("stored files with cid:", cid);
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, cid: cid });
   } catch (err) {
     return res
       .status(500)
@@ -33,7 +33,7 @@ async function storeFiles(files) {
 function makeFileObjects(body) {
   const buffer = Buffer.from(JSON.stringify(body));
 
-  const files = [new File([buffer], "hello.json")];
+  const files = [new File([buffer], "data.json")];
   return files;
 }
 

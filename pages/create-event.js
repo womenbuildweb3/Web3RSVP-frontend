@@ -2,11 +2,25 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import { ethers } from "ethers";
+import abiJSON from "../utils/Web3RSVP.json";
 
 export default function CreateEvent() {
+  const [currentAccount, setCurrentAccount] = useState("");
   const [eventName, setEventName] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState("");
+  const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+
+  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractABI = abiJSON.abi;
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -26,7 +40,9 @@ export default function CreateEvent() {
       if (response.status !== 200) {
         alert("Oops! Something went wrong. Please refresh and try again.");
       } else {
-        alert("Form successfully submitted!");
+        console.log("Form successfully submitted!");
+        let responseJSON = await response.json();
+        await createEvent(responseJSON.cid);
       }
       // check response, if success is false, dont take them to success page
     } catch (error) {
@@ -35,6 +51,93 @@ export default function CreateEvent() {
       );
     }
   }
+
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      } else {
+        console.log("We have the ethereum object", ethereum);
+      }
+
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account);
+      } else {
+        console.log("No authorized account found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createEvent = async (cid) => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        console.log("contractABI", contractABI);
+        const rsvpContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
+        console.log("rsvpContract", rsvpContract);
+
+        let deposit = refund * 1000000;
+        let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
+        let eventTimestamp = eventDateAndTime.getTime();
+        let eventDataCID = cid;
+        console.log("deposit", deposit);
+        console.log("eventTimestamp", eventTimestamp);
+        console.log("eventDataCID", eventDataCID);
+
+        const bluntTxn = await rsvpContract.createNewEvent(
+          eventTimestamp,
+          deposit,
+          maxCapacity,
+          eventDataCID,
+          { gasLimit: 900000 }
+        );
+        console.log("Minting...", bluntTxn.hash);
+
+        await bluntTxn.wait();
+        console.log("Minted -- ", bluntTxn.hash);
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,135 +152,144 @@ export default function CreateEvent() {
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
           Create your virtual event
         </h1>
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-8 divide-y divide-gray-200"
-        >
-          <div className="space-y-6 sm:space-y-5">
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="eventname"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Event name
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  id="event-name"
-                  name="event-name"
-                  type="text"
-                  className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                  required
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Date & time
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Your event date and time
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 flex flex-wrap sm:flex-nowrap gap-2">
-                <div className="w-1/2">
+        {currentAccount && (
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-8 divide-y divide-gray-200"
+          >
+            <div className="space-y-6 sm:space-y-5">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="eventname"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Event name
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    id="event-name"
+                    name="event-name"
+                    type="text"
+                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                     required
-                  />
-                </div>
-                <div className="w-1/2">
-                  <input
-                    id="time"
-                    name="time"
-                    type="time"
-                    className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                    required
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="max-capacity"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Max capacity
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Limit the number of spots available for your event. Leave
-                  blank to allow unlimited spots
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  type="number"
-                  name="max-capacity"
-                  id="max-capacity"
-                  min="1"
-                  placeholder="Unlimited"
-                  className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Date & time
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Your event date and time
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 flex flex-wrap sm:flex-nowrap gap-2">
+                  <div className="w-1/2">
+                    <input
+                      id="date"
+                      name="date"
+                      type="date"
+                      className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                      required
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <input
+                      id="time"
+                      name="time"
+                      type="time"
+                      className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                      required
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="refundable-deposit"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Refundable deposit
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Require a refundable deposit (in ETH) to reserve one spot at
-                  your event
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  type="number"
-                  name="refundable-deposit"
-                  id="refundable-deposit"
-                  min="0"
-                  step="any"
-                  inputMode="decimal"
-                  placeholder="0.00"
-                  className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="max-capacity"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Max capacity
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Limit the number of spots available for your event. Leave
+                    blank to allow unlimited spots
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="number"
+                    name="max-capacity"
+                    id="max-capacity"
+                    min="1"
+                    placeholder="Unlimited"
+                    className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    value={maxCapacity}
+                    onChange={(e) => setMaxCapacity(e.target.value)}
+                  />
+                </div>
               </div>
-            </div> */}
 
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="event-link"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Event link
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  The link for your virtual event
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  id="event-link"
-                  name="event-link"
-                  type="text"
-                  className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                  required
-                  value={eventLink}
-                  onChange={(e) => setEventLink(e.target.value)}
-                />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="refundable-deposit"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Refundable deposit
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Require a refundable deposit (in ETH) to reserve one spot at
+                    your event
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="number"
+                    name="refundable-deposit"
+                    id="refundable-deposit"
+                    min="0"
+                    step="any"
+                    inputMode="decimal"
+                    placeholder="0.00"
+                    className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    value={refund}
+                    onChange={(e) => setRefund(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="event-link"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Event link
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    The link for your virtual event
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    id="event-link"
+                    name="event-link"
+                    type="text"
+                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    required
+                    value={eventLink}
+                    onChange={(e) => setEventLink(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
               <label
                 htmlFor="cover-photo"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
@@ -228,45 +340,56 @@ export default function CreateEvent() {
               </div>
             </div> */}
 
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="about"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Event description
-                <p className="mt-2 text-sm text-gray-400">
-                  Let people know what your event is about!
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <textarea
-                  id="about"
-                  name="about"
-                  rows={10}
-                  className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                  value={eventDescription}
-                  onChange={(e) => setEventDescription(e.target.value)}
-                />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="about"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Event description
+                  <p className="mt-2 text-sm text-gray-400">
+                    Let people know what your event is about!
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea
+                    id="about"
+                    name="about"
+                    rows={10}
+                    className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="pt-5">
-            <div className="flex justify-end">
-              <Link href="/">
-                <a className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Cancel
-                </a>
-              </Link>
-              <button
-                type="submit"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Create
-              </button>
+            <div className="pt-5">
+              <div className="flex justify-end">
+                <Link href="/">
+                  <a className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                  </a>
+                </Link>
+                <button
+                  type="submit"
+                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Create
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        )}
+        {!currentAccount && (
+          <button
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={() => {
+              connectWallet();
+            }}
+          >
+            Connect Wallet
+          </button>
+        )}
       </section>
     </div>
   );
