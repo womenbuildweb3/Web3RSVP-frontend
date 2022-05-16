@@ -98,7 +98,7 @@ export default function Home({ events }) {
       </section>
       <section className="py-12">
         <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-          Just Added
+          Happening Soon
         </h2>
         <ul
           role="list"
@@ -106,7 +106,7 @@ export default function Home({ events }) {
         >
           {events.map((event) => (
             <li key="{event.id}">
-              <EventCard eid={1} title={event.eventCID} />
+              <EventCard eid={event.id} title={event.eventCID} />
             </li>
           ))}
         </ul>
