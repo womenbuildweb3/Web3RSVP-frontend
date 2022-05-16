@@ -4,8 +4,60 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 import Image from "next/image";
 import EventCard from "../components/EventCard";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+const APIURL =
+  "https://api.thegraph.com/subgraphs/name/sarahschwartz/web3-rsvp";
 
-export default function Home() {
+const eventsQuery = `
+  query ($first: Int) {
+    events(first: $first) {
+      id
+      eventID
+      eventCID
+    }
+  }
+`;
+
+const client = new ApolloClient({
+  uri: APIURL,
+  cache: new InMemoryCache(),
+});
+
+client
+  .query({
+    query: gql(eventsQuery),
+    variables: {
+      first: 5,
+      orderBy: "createdAtTimestamp",
+      orderDirection: "desc",
+    },
+  })
+  .then((data) => console.log("Subgraph data: ", data))
+  .catch((err) => {
+    console.log("Error fetching data: ", err);
+  });
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query Events {
+        events {
+          id
+          eventID
+          eventCID
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      events: data.events.slice(0, 4),
+    },
+  };
+}
+
+export default function Home({ events }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
@@ -46,21 +98,20 @@ export default function Home() {
       </section>
       <section className="py-12">
         <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-          Hottest Events
+          Just Added
         </h2>
         <ul
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         >
-          <li>
-            <EventCard
-              eid={1}
-              title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"}
-            />
-          </li>
+          {events.map((event) => (
+            <li key="{event.id}">
+              <EventCard eid={1} title={event.eventCID} />
+            </li>
+          ))}
         </ul>
       </section>
-      <section className="py-12">
+      {/* <section className="py-12">
         <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
           Just Added
         </h2>
@@ -75,7 +126,7 @@ export default function Home() {
             />
           </li>
         </ul>
-      </section>
+      </section> */}
     </div>
   );
 }

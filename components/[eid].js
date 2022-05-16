@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import EventCard from "../../components/EventCard";
+import EventCard from "./EventCard";
 
 const Event = () => {
   const router = useRouter();
