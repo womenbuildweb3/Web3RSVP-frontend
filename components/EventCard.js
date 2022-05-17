@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard({ eid, title }) {
+export default function EventCard({ eid, title, eventDate }) {
   return (
     <div className="group relative">
       <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
@@ -15,7 +15,7 @@ export default function EventCard({ eid, title }) {
         </button>
       </div>
       <p className="mt-2 block text-sm font-medium text-gray-500 pointer-events-none">
-        TUE · OCT 4 · 8:00 PM
+        {eventDate}
       </p>
       <Link href={`/event/${eid}`}>
         <a className="block text-base text-gray-900">{title}</a>
