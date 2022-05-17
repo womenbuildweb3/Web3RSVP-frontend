@@ -12,8 +12,12 @@ const eventsQuery = `
   query ($first: Int) {
     events(first: $first) {
       id
-      eventID
-      eventCID
+      name
+      description
+      eventTimestamp
+      totalConfirmedAttendees
+      link
+      totalRSVPs
     }
   }
 `;
@@ -44,7 +48,12 @@ export async function getStaticProps() {
         events {
           id
           eventID
-          eventCID
+          name
+          description
+          eventTimestamp
+          totalConfirmedAttendees
+          link
+          totalRSVPs
         }
       }
     `,
@@ -52,7 +61,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      events: data.events.slice(0, 4),
+      events: data.events.slice(2, 6), // first two events name are null
     },
   };
 }
@@ -106,7 +115,14 @@ export default function Home({ events }) {
         >
           {events.map((event) => (
             <li key="{event.id}">
-              <EventCard eid={event.id} title={event.eventCID} />
+              <EventCard
+                eid={event.id}
+                title={event.name}
+                eventDate={new Date(event.eventTimestamp * 1)
+                  .toISOString()
+                  .slice(0, 19)
+                  .replace("T", " ")}
+              />
             </li>
           ))}
         </ul>
