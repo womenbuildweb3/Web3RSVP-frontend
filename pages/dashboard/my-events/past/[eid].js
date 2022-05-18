@@ -5,10 +5,12 @@ const tabs = [
   { name: "Past", href: "/dashboard/my-events/past", current: true },
 ];
 
-export default function UpdateMyPastEvent() {
+const UpdateMyPastEvent = () => {
   return (
     <Dashboard title={"My Events"} tabs={tabs}>
-      <p>past events</p>
+      <p>coming soon</p>
     </Dashboard>
   );
-}
+};
+
+export default UpdateMyPastEvent;
