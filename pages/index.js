@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import EventCard from "../components/EventCard";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+
 const APIURL =
   "https://api.thegraph.com/subgraphs/name/sarahschwartz/web3-rsvp";
 
@@ -118,31 +119,12 @@ export default function Home({ events }) {
               <EventCard
                 eid={event.id}
                 title={event.name}
-                eventDate={new Date(event.eventTimestamp * 1)
-                  .toISOString()
-                  .slice(0, 19)
-                  .replace("T", " ")}
+                eventTimestamp={event.eventTimestamp}
               />
             </li>
           ))}
         </ul>
       </section>
-      {/* <section className="py-12">
-        <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-          Just Added
-        </h2>
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          <li>
-            <EventCard
-              eid={1}
-              title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"}
-            />
-          </li>
-        </ul>
-      </section> */}
     </div>
   );
 }
