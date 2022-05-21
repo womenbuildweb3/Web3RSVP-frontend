@@ -1,71 +1,7 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
-import Layout from "../components/Layout";
-import Link from "next/link";
-import Image from "next/image";
 import EventCard from "../components/EventCard";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
-const APIURL =
-  "https://api.thegraph.com/subgraphs/name/sarahschwartz/web3-rsvp";
-
-const eventsQuery = `
-  query ($first: Int) {
-    events(first: $first) {
-      id
-      name
-      description
-      eventTimestamp
-      totalConfirmedAttendees
-      link
-      totalRSVPs
-    }
-  }
-`;
-
-const client = new ApolloClient({
-  uri: APIURL,
-  cache: new InMemoryCache(),
-});
-
-client
-  .query({
-    query: gql(eventsQuery),
-    variables: {
-      first: 5,
-      orderBy: "createdAtTimestamp",
-      orderDirection: "desc",
-    },
-  })
-  .then((data) => console.log("Subgraph data: ", data))
-  .catch((err) => {
-    console.log("Error fetching data: ", err);
-  });
-
-export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-      query Events {
-        events {
-          id
-          eventID
-          name
-          description
-          eventTimestamp
-          totalConfirmedAttendees
-          link
-          totalRSVPs
-        }
-      }
-    `,
-  });
-
-  return {
-    props: {
-      events: data.events.slice(2, 6), // first two events name are null
-    },
-  };
-}
+import { gql } from "@apollo/client";
+import client from "../apollo-client";
 
 export default function Home({ events }) {
   return (
@@ -115,10 +51,10 @@ export default function Home({ events }) {
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         >
           {events.map((event) => (
-            <li key="{event.id}">
+            <li key={event.id}>
               <EventCard
-                eid={event.id}
-                title={event.name}
+                id={event.id}
+                name={event.name}
                 eventTimestamp={event.eventTimestamp}
               />
             </li>
@@ -127,4 +63,29 @@ export default function Home({ events }) {
       </section>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query Events {
+        events {
+          id
+          eventID
+          name
+          description
+          eventTimestamp
+          totalConfirmedAttendees
+          link
+          totalRSVPs
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      events: data.events.slice(0, 8),
+    },
+  };
 }

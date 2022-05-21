@@ -1,45 +1,36 @@
-import { useRouter } from "next/router";
 import Head from "next/head";
+import Image from "next/image";
+import { gql } from "@apollo/client";
+import client from "../../apollo-client";
+import formatTimestamp from "../../utils/formatTimestamp";
 import EventCard from "../../components/EventCard";
 
-const Event = () => {
-  const router = useRouter();
-  const { eid } = router.query;
-  const eventDetails = {
-    eid: 1,
-    title: "Wu-Tang Clan & Nas: NY State Of Mind Tour",
-    imageURL:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-  };
+function Event({ event }) {
+  console.log(event);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>{eventDetails.title} | web3rsvp</title>
-        <meta name="description" content={eventDetails.title} />
+        <title>{event.name} | web3rsvp</title>
+        <meta name="description" content={event.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="py-12">
-        <h6 className="mb-2">TUE · OCT 4 · 8:00 PM</h6>
+        <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6>
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 lg:mb-12">
-          {eventDetails.title}
+          {event.name}
         </h1>
         <div className="flex flex-wrap-reverse lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-24 xl:pr-32">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
-                alt="image"
-                className="object-cover pointer-events-none group-hover:opacity-75"
-              ></img>
+              <Image
+                src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
+                alt="event image"
+                layout="fill"
+                objectFit="cover"
+              ></Image>
             </div>
-            <p>
-              Wu-Tang Clan is an American hip hop group formed in Staten Island,
-              New York City, in 1992. Its original members include RZA, GZA,
-              Ol&apos; Dirty Bastard, Method Man, Raekwon, Ghostface Killah,
-              Inspectah Deck, U-God, and Masta Killa. Close affiliate Cappadonna
-              later became an official member.
-            </p>
+            <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
             <button
@@ -147,16 +138,45 @@ const Event = () => {
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         >
-          <li>
-            <EventCard
-              eid={1}
-              title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"}
-            />
-          </li>
+          <li>TODO</li>
         </ul>
       </section>
     </div>
   );
-};
+}
 
 export default Event;
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  console.log(id);
+
+  const { data } = await client.query({
+    query: gql`
+      query Event($id: String!) {
+        event(id: $id) {
+          id
+          eventID
+          name
+          description
+          link
+          eventOwner
+          eventTimestamp
+          maxCapacity
+          deposit
+          totalRSVPs
+          totalConfirmedAttendees
+        }
+      }
+    `,
+    variables: {
+      id: id,
+    },
+  });
+
+  return {
+    props: {
+      event: data.event,
+    },
+  };
+}

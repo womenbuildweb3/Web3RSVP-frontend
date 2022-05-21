@@ -11,7 +11,6 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Layout>
-        {" "}
         <Component {...pageProps} />
       </Layout>
     </Web3ReactProvider>

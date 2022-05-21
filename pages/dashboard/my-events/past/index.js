@@ -20,10 +20,10 @@ export default function MyPastEvents() {
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
         <li>
-          <EventCard
-            eid={1}
+          {/* <EventCard
+            id={1}
             title={"Wu-Tang Clan & Nas: NY State Of Mind Tour"}
-          />
+          /> */}
           <Link href={`/dashboard/my-events/past/1`}>
             <a className="block text-base text-indigo-600 hover:text-indigo-800">
               Update attendees
