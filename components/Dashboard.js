@@ -1,8 +1,5 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../hooks/useConnectWallet";
-import ConnectBtn from "./ConnectBtn";
 import joinClassNames from "../utils/joinClassNames";
 
 export default function Dashboard({ navigation, title, tabs, children }) {
@@ -14,10 +11,6 @@ export default function Dashboard({ navigation, title, tabs, children }) {
     const href = tabs.find((tab) => tab.name == name).href;
     router.push(href);
   };
-
-  const { active, account } = useWeb3React();
-
-  useConnectWallet();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,16 +83,7 @@ export default function Dashboard({ navigation, title, tabs, children }) {
               </nav>
             </div>
           </div>
-          {active ? (
-            <section className="py-8">{children}</section>
-          ) : (
-            <section className="flex flex-col items-center py-8">
-              <p className="mb-4">
-                Please connect your wallet to view your events and RSVPs.
-              </p>
-              <ConnectBtn />
-            </section>
-          )}
+          <section className="py-8">{children}</section>
         </div>
       </div>
     </div>

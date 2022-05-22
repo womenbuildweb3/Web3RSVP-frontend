@@ -75,8 +75,7 @@ export async function getStaticProps() {
           name
           description
           eventTimestamp
-          totalConfirmedAttendees
-          link
+          maxCapacity
           totalRSVPs
         }
       }

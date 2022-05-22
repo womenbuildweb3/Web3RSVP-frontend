@@ -3,17 +3,17 @@ module.exports = {
     return [
       {
         source: "/dashboard",
-        destination: "/dashboard/my-events/upcoming",
+        destination: "/my-events/[address]/upcoming",
         permanent: true,
       },
       {
-        source: "/dashboard/my-events",
-        destination: "/dashboard/my-events/upcoming",
+        source: "/my-events/[address]",
+        destination: "/my-events/[address]/upcoming",
         permanent: true,
       },
       {
-        source: "/dashboard/my-rsvps",
-        destination: "/dashboard/my-rsvps/upcoming",
+        source: "/my-rsvps/[address]",
+        destination: "/my-rsvps/[address]/upcoming",
         permanent: true,
       },
     ];
