@@ -1,12 +1,10 @@
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { Web3ReactProvider } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
+import Web3 from "web3";
 
 function getLibrary(provider) {
-  const library = new Web3Provider(provider);
-  library.pollingInterval = 12000;
-  return library;
+  return new Web3(provider);
 }
 
 export default function MyApp({ Component, pageProps }) {

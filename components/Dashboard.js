@@ -1,11 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
-import { injected } from "../components/wallet/connectors";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import useConnectWallet from "../hooks/useConnectWallet";
+import ConnectBtn from "./ConnectBtn";
+import joinClassNames from "../utils/joinClassNames";
 
 export default function Dashboard({ navigation, title, tabs, children }) {
   const router = useRouter();
@@ -17,16 +15,9 @@ export default function Dashboard({ navigation, title, tabs, children }) {
     router.push(href);
   };
 
-  const { active, account, activate } = useWeb3React();
+  const { active, account } = useWeb3React();
 
-  async function connect() {
-    try {
-      await activate(injected);
-      localStorage.setItem("isWalletConnected", true);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  useConnectWallet();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,11 +27,17 @@ export default function Dashboard({ navigation, title, tabs, children }) {
       </Head>
       <div className="flex flex-wrap py-8">
         <nav className="space-y-1 w-60 mb-8 sm:w-2/12" aria-label="Sidebar">
+          {active && (
+            <div className="flex items-center px-3 py-2 mb-2 rounded-md text-sm font-medium text-indigo-800 w-full">
+              <div className="w-6 h-3 mr-1 bg-indigo-400 rounded-full"></div>
+              <p className="text-ellipsis overflow-hidden">{account}</p>
+            </div>
+          )}
           {navigation.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className={classNames(
+              className={joinClassNames(
                 item.current
                   ? "bg-gray-100 text-gray-900"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
@@ -79,7 +76,7 @@ export default function Dashboard({ navigation, title, tabs, children }) {
                   <a
                     key={tab.name}
                     href={tab.href}
-                    className={classNames(
+                    className={joinClassNames(
                       tab.current
                         ? "border-indigo-500 text-indigo-600"
                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
@@ -96,7 +93,12 @@ export default function Dashboard({ navigation, title, tabs, children }) {
           {active ? (
             <section className="py-8">{children}</section>
           ) : (
-            <p> log in </p>
+            <section className="flex flex-col items-center py-8">
+              <p className="mb-4">
+                Please connect your wallet to view your events and RSVPs.
+              </p>
+              <ConnectBtn />
+            </section>
           )}
         </div>
       </div>
