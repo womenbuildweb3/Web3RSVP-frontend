@@ -7,7 +7,6 @@ import EventCard from "../../components/EventCard";
 import { useWeb3React } from "@web3-react/core";
 import useConnectWallet from "../../hooks/useConnectWallet";
 import ConnectBtn from "../../components/ConnectBtn";
-import useContract from "../../hooks/useContract";
 import { ethers } from "ethers";
 import abiJSON from "../../utils/Web3RSVP.json";
 import { useState } from "react";
@@ -22,21 +21,20 @@ function Event({ event }) {
 
   useConnectWallet();
 
-  function checkIfAlreadyRSVPed(){
-    if(active){
-      console.log("active")
-      for (let i = 0; i < event.rsvps.length; i++){
-        console.log(event.rsvps[i].attendee.id)
-        console.log("ACCOUNT:", account.toLowerCase())
-        const thisAccount = account.toLowerCase()
-        if(event.rsvps[i].attendee.id == thisAccount){
-            return true
-          }
+  function checkIfAlreadyRSVPed() {
+    if (active) {
+      console.log("active");
+      for (let i = 0; i < event.rsvps.length; i++) {
+        console.log(event.rsvps[i].attendee.id);
+        console.log("ACCOUNT:", account.toLowerCase());
+        const thisAccount = account.toLowerCase();
+        if (event.rsvps[i].attendee.id == thisAccount) {
+          return true;
+        }
       }
     }
-    return false
+    return false;
   }
-
 
   const newRSVP = async () => {
     try {
@@ -92,13 +90,21 @@ function Event({ event }) {
             <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
-            {active ? checkIfAlreadyRSVPed() ?  <p>You have already RSVPed to this event</p> : <button
-              type="button"
-              className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={newRSVP}
-            >
-              RSVP for {ethers.utils.formatEther(event.deposit)} ETH
-            </button> : <ConnectBtn/> }
+            {active ? (
+              checkIfAlreadyRSVPed() ? (
+                <p>You have already RSVPed to this event</p>
+              ) : (
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={newRSVP}
+                >
+                  RSVP for {ethers.utils.formatEther(event.deposit)} ETH
+                </button>
+              )
+            ) : (
+              <ConnectBtn />
+            )}
 
             <p className="inline-flex gap-2">
               <svg
@@ -228,9 +234,9 @@ export async function getServerSideProps(context) {
           deposit
           totalRSVPs
           totalConfirmedAttendees
-          rsvps{
+          rsvps {
             id
-            attendee{
+            attendee {
               id
             }
           }
