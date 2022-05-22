@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { ethers } from "ethers";
 import abiJSON from "../utils/Web3RSVP.json";
+import { useWeb3React } from "@web3-react/core";
+import useConnectWallet from "../hooks/useConnectWallet";
+import ConnectBtn from "../components/ConnectBtn";
 
 export default function CreateEvent() {
-  const [currentAccount, setCurrentAccount] = useState("");
+  const { active } = useWeb3React();
+
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
@@ -18,9 +22,7 @@ export default function CreateEvent() {
   const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
   const contractABI = abiJSON.abi;
 
-  useEffect(() => {
-    checkIfWalletIsConnected();
-  }, []);
+  useConnectWallet();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,51 +53,6 @@ export default function CreateEvent() {
       );
     }
   }
-
-  const checkIfWalletIsConnected = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (!ethereum) {
-        console.log("Make sure you have metamask!");
-        return;
-      } else {
-        console.log("We have the ethereum object", ethereum);
-      }
-
-      const accounts = await ethereum.request({ method: "eth_accounts" });
-
-      if (accounts.length !== 0) {
-        const account = accounts[0];
-        console.log("Found an authorized account:", account);
-        setCurrentAccount(account);
-      } else {
-        console.log("No authorized account found");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (!ethereum) {
-        alert("Get MetaMask!");
-        return;
-      }
-
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      console.log("Connected", accounts[0]);
-      setCurrentAccount(accounts[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createEvent = async (cid) => {
     try {
@@ -152,7 +109,7 @@ export default function CreateEvent() {
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
           Create your virtual event
         </h1>
-        {currentAccount && (
+        {active && (
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -362,7 +319,6 @@ export default function CreateEvent() {
                 </div>
               </div>
             </div>
-
             <div className="pt-5">
               <div className="flex justify-end">
                 <Link href="/">
@@ -380,15 +336,11 @@ export default function CreateEvent() {
             </div>
           </form>
         )}
-        {!currentAccount && (
-          <button
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={() => {
-              connectWallet();
-            }}
-          >
-            Connect Wallet
-          </button>
+        {!active && (
+          <section className="flex flex-col items-start py-8">
+            <p className="mb-4">Please connect your wallet to create events.</p>
+            <ConnectBtn />
+          </section>
         )}
       </section>
     </div>
