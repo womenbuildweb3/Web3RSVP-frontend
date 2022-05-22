@@ -1,22 +1,11 @@
 import { gql } from "@apollo/client";
 import client from "../../../apollo-client";
-import { useWeb3React } from "@web3-react/core";
 import Dashboard from "../../../components/Dashboard";
 import EventCard from "../../../components/EventCard";
 
-const navigation = [
-  { name: "My Events", href: "/dashboard/my-events", current: true },
-  { name: "My RSVPs", href: "/dashboard/my-rsvps", current: false },
-];
-
-const tabs = [
-  { name: "Upcoming", href: "/dashboard/my-events/upcoming", current: true },
-  { name: "Past", href: "/dashboard/my-events/past", current: false },
-];
-
-export default function MyUpcomingEvents({ events }) {
+export default function MyUpcomingRSVPs({ events }) {
   return (
-    <Dashboard navigation={navigation} title={"My Events"} tabs={tabs}>
+    <Dashboard page="rsvps" isUpcoming={true}>
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -35,13 +24,16 @@ export default function MyUpcomingEvents({ events }) {
   );
 }
 
-export async function getStaticProps() {
-  const { active, account } = useWeb3React();
+export async function getServerSideProps(context) {
+  const { address } = context.params;
+  const currentTime = new Date().getTime().toString();
 
   const { data } = await client.query({
     query: gql`
-      query Events($eventOwner: String!) {
-        events(where: { eventOwner_contains: $eventOwner }) {
+      query Events($eventOwner: String, $eventTimestamp: String) {
+        events(
+          where: { eventOwner: $eventOwner, eventTimestamp_gt: $eventTimestamp }
+        ) {
           id
           eventID
           name
@@ -53,13 +45,14 @@ export async function getStaticProps() {
       }
     `,
     variables: {
-      eventOwner: account,
+      eventOwner: address,
+      eventTimestamp: currentTime,
     },
   });
 
   return {
     props: {
-      event: data.event,
+      events: data.events,
     },
   };
 }

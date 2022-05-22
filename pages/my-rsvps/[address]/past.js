@@ -1,12 +1,11 @@
 import { gql } from "@apollo/client";
 import client from "../../../apollo-client";
-import ConnectBtn from "../../../components/ConnectBtn";
 import Dashboard from "../../../components/Dashboard";
 import EventCard from "../../../components/EventCard";
 
-export default function MyUpcomingEvents({ events }) {
+export default function MyPastRSVPs({ events }) {
   return (
-    <Dashboard page="events" isUpcoming={true}>
+    <Dashboard page="rsvps" isUpcoming={false}>
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -33,7 +32,7 @@ export async function getServerSideProps(context) {
     query: gql`
       query Events($eventOwner: String, $eventTimestamp: String) {
         events(
-          where: { eventOwner: $eventOwner, eventTimestamp_gt: $eventTimestamp }
+          where: { eventOwner: $eventOwner, eventTimestamp_lt: $eventTimestamp }
         ) {
           id
           eventID

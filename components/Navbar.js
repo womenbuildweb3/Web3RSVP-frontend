@@ -57,7 +57,7 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/dashboard"
+                            href={`/my-events/${account}/upcoming`}
                             className={joinClassNames(
                               active
                                 ? "bg-gray-100 text-gray-900"
