@@ -69,7 +69,7 @@ export default function CreateEvent() {
         );
         console.log("rsvpContract", rsvpContract);
 
-        let deposit = refund * 1000000;
+        let deposit = ethers.utils.parseEther(refund);
         let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
         let eventTimestamp = eventDateAndTime.getTime();
         let eventDataCID = cid;
@@ -178,8 +178,7 @@ export default function CreateEvent() {
                 >
                   Max capacity
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Limit the number of spots available for your event. Leave
-                    blank to allow unlimited spots
+                    Limit the number of spots available for your event.
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -188,7 +187,7 @@ export default function CreateEvent() {
                     name="max-capacity"
                     id="max-capacity"
                     min="1"
-                    placeholder="Unlimited"
+                    placeholder="100"
                     className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                     value={maxCapacity}
                     onChange={(e) => setMaxCapacity(e.target.value)}
