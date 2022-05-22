@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "../components/wallet/connectors";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -14,6 +16,17 @@ export default function Dashboard({ navigation, title, tabs, children }) {
     const href = tabs.find((tab) => tab.name == name).href;
     router.push(href);
   };
+
+  const { active, account, activate } = useWeb3React();
+
+  async function connect() {
+    try {
+      await activate(injected);
+      localStorage.setItem("isWalletConnected", true);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,7 +93,11 @@ export default function Dashboard({ navigation, title, tabs, children }) {
               </nav>
             </div>
           </div>
-          <section className="py-8">{children}</section>
+          {active ? (
+            <section className="py-8">{children}</section>
+          ) : (
+            <p> log in </p>
+          )}
         </div>
       </div>
     </div>

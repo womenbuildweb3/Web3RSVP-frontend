@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client";
+import client from "../../apollo-client";
 import Dashboard from "../../../components/Dashboard";
 import EventCard from "../../../components/EventCard";
 
@@ -27,4 +29,37 @@ export default function MyUpcomingEvents() {
       </ul>
     </Dashboard>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+
+  const { data } = await client.query({
+    query: gql`
+      query Event($id: String!) {
+        event(id: $id) {
+          id
+          eventID
+          name
+          description
+          link
+          eventOwner
+          eventTimestamp
+          maxCapacity
+          deposit
+          totalRSVPs
+          totalConfirmedAttendees
+        }
+      }
+    `,
+    variables: {
+      id: id,
+    },
+  });
+
+  return {
+    props: {
+      event: data.event,
+    },
+  };
 }

@@ -23,7 +23,7 @@ export default function Home({ events }) {
             Find, join, and create virtual events with your web3 frens!
           </p>
         </div>
-        <form action="#" method="POST" className="mt-8 sm:flex">
+        {/* <form action="#" method="POST" className="mt-8 sm:flex">
           <label htmlFor="email" className="sr-only">
             Events
           </label>
@@ -40,12 +40,12 @@ export default function Home({ events }) {
           >
             Search
           </button>
-        </form>
+        </form> */}
       </section>
       <section className="py-12">
-        <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
+        {/* <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
           Happening Soon
-        </h2>
+        </h2> */}
         <ul
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"

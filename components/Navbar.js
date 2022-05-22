@@ -2,6 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../components/wallet/connectors";
+import { Web3Provider } from "@ethersproject/providers";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -13,14 +14,13 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
+  const { active, account, activate, deactivate } = useWeb3React();
   const [show, setShow] = useState(false);
 
   async function connect() {
     try {
       await activate(injected);
-      setShow(true)
+      setShow(true);
       localStorage.setItem("isWalletConnected", true);
       const btn = document.getElementById("btn");
       btn.style.display = "none";
@@ -39,18 +39,21 @@ export default function Navbar() {
       console.log(ex);
     }
   }
+
   useEffect(() => {
-    const connectWalletOnPageLoad = async () => {
-      if (localStorage?.getItem("isWalletConnected") === "true") {
-        try {
-          localStorage.setItem("isWalletConnected", true);
-        } catch (ex) {
-          console.log(ex);
-        }
-      }
-    };
-    connectWalletOnPageLoad();
+    // const connectWalletOnPageLoad = async () => {
+    //   if (localStorage?.getItem("isWalletConnected") === "true") {
+    //     try {
+    //       localStorage.setItem("isWalletConnected", true);
+    //     } catch (ex) {
+    //       console.log(ex);
+    //     }
+    //   }
+    // };
+    // connectWalletOnPageLoad();
+    console.log(account, active);
   }, []);
+
   return (
     <header className="bg-white border-b-2 border-gray-100">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
@@ -87,17 +90,18 @@ export default function Navbar() {
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm"
-                            )}
-                          >
-                            Dashboard
-                          </a>
+                          <Link href="/dashboard">
+                            <a
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-700",
+                                "block px-4 py-2 text-sm"
+                              )}
+                            >
+                              Dashboard
+                            </a>
+                          </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
