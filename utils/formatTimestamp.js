@@ -1,5 +1,6 @@
 function formatTimestamp(timestamp) {
   const eventDate = new Date(timestamp * 1);
+  console.log("EVENT DATE:", eventDate);
   // const offsetMs = eventDate.getTimezoneOffset() * 60 * 1000;
   // const dateLocal = new Date(eventDate.getTime() - offsetMs);
   const options = {

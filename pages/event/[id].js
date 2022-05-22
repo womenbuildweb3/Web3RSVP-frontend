@@ -4,9 +4,66 @@ import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import formatTimestamp from "../../utils/formatTimestamp";
 import EventCard from "../../components/EventCard";
+import { useWeb3React } from "@web3-react/core";
+import useConnectWallet from "../../hooks/useConnectWallet";
+import ConnectBtn from "../../components/ConnectBtn";
+import { ethers } from "ethers";
+import abiJSON from "../../utils/Web3RSVP.json";
+import { useState } from "react";
+import { cloneElement } from "react/cjs/react.production.min";
 
 function Event({ event }) {
-  console.log(event);
+  const { active, account } = useWeb3React();
+
+  console.log("THIS EVENT:", event);
+  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractABI = abiJSON.abi;
+
+  useConnectWallet();
+
+  function checkIfAlreadyRSVPed() {
+    if (active) {
+      console.log("active");
+      for (let i = 0; i < event.rsvps.length; i++) {
+        console.log(event.rsvps[i].attendee.id);
+        console.log("ACCOUNT:", account.toLowerCase());
+        const thisAccount = account.toLowerCase();
+        if (event.rsvps[i].attendee.id == thisAccount) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  const newRSVP = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const rsvpContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
+
+        const newTxn = await await rsvpContract.createNewRSVP(event.id, {
+          value: event.deposit,
+          gasLimit: 300000,
+        });
+        console.log("Mining...", newTxn.hash);
+
+        await newTxn.wait();
+        console.log("Mined -- ", newTxn.hash);
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,12 +90,22 @@ function Event({ event }) {
             <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
-            <button
-              type="button"
-              className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              RSVP for 0.05 ETH
-            </button>
+            {active ? (
+              checkIfAlreadyRSVPed() ? (
+                <p>You have already RSVPed to this event</p>
+              ) : (
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={newRSVP}
+                >
+                  RSVP for {ethers.utils.formatEther(event.deposit)} ETH
+                </button>
+              )
+            ) : (
+              <ConnectBtn />
+            )}
+
             <p className="inline-flex gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +121,7 @@ function Event({ event }) {
                   d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              10/12 attending
+              {event.totalRSVPs}/{event.maxCapacity} attending
             </p>
             <p className="inline-flex gap-2">
               <svg
@@ -88,7 +155,8 @@ function Event({ event }) {
                   d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                 />
               </svg>
-              Hosted by 0x123456abcdef...
+              Hosted by {event.eventOwner}
+              {/* 0x123456abcdef... */}
             </p>
             <div className="flex gap-2">
               <button
@@ -166,6 +234,12 @@ export async function getServerSideProps(context) {
           deposit
           totalRSVPs
           totalConfirmedAttendees
+          rsvps {
+            id
+            attendee {
+              id
+            }
+          }
         }
       }
     `,
