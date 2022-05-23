@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import HomepageLayout from "../components/HomepageLayout";
+import Landing from "../components/Landing";
 import EventCard from "../components/EventCard";
 
 const UPCOMING_EVENTS = gql`
@@ -23,19 +23,19 @@ export default function Home() {
 
   if (loading)
     return (
-      <HomepageLayout>
+      <Landing>
         <p>Loading...</p>
-      </HomepageLayout>
+      </Landing>
     );
   if (error)
     return (
-      <HomepageLayout>
+      <Landing>
         <p>`Error! ${error.message}`</p>
-      </HomepageLayout>
+      </Landing>
     );
 
   return (
-    <HomepageLayout>
+    <Landing>
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -51,6 +51,6 @@ export default function Home() {
             </li>
           ))}
       </ul>
-    </HomepageLayout>
+    </Landing>
   );
 }

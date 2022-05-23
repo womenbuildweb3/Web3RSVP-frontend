@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function HomepageLayout({ children }) {
+export default function Landing({ children }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
