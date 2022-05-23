@@ -27,7 +27,7 @@ export default function MyUpcomingRSVPs() {
   useConnectWallet();
 
   const id = active ? account.toLowerCase() : "";
-  const [eventTimestamp, setEventTimestamp] = useState(new Date().getTime());
+  const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
   const { loading, error, data } = useQuery(MY_UPCOMING_RSVPS, {
     variables: { id },
   });
@@ -55,7 +55,7 @@ export default function MyUpcomingRSVPs() {
           {data &&
             data.account &&
             data.account.rsvps.map(function (rsvp) {
-              if (rsvp.event.eventTimestamp > eventTimestamp) {
+              if (rsvp.event.eventTimestamp > currentTimestamp) {
                 return (
                   <li key={rsvp.event.id}>
                     <EventCard

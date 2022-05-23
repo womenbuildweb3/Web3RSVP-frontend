@@ -4,8 +4,8 @@ import Landing from "../components/Landing";
 import EventCard from "../components/EventCard";
 
 const UPCOMING_EVENTS = gql`
-  query Events($eventTimestamp: String) {
-    events(where: { eventTimestamp_gt: $eventTimestamp }) {
+  query Events($currentTimestamp: String) {
+    events(where: { eventTimestamp_gt: $currentTimestamp }) {
       id
       name
       eventTimestamp
@@ -14,11 +14,11 @@ const UPCOMING_EVENTS = gql`
 `;
 
 export default function Home() {
-  const [eventTimestamp, setEventTimestamp] = useState(
+  const [currentTimestamp, setEventTimestamp] = useState(
     new Date().getTime().toString()
   );
   const { loading, error, data } = useQuery(UPCOMING_EVENTS, {
-    variables: { eventTimestamp },
+    variables: { currentTimestamp },
   });
 
   if (loading)

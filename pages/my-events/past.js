@@ -7,9 +7,9 @@ import EventCard from "../../components/EventCard";
 import ConnectBtn from "../../components/ConnectBtn";
 
 const MY_PAST_EVENTS = gql`
-  query Events($eventOwner: String, $eventTimestamp: String) {
+  query Events($eventOwner: String, $currentTimestamp: String) {
     events(
-      where: { eventOwner: $eventOwner, eventTimestamp_lt: $eventTimestamp }
+      where: { eventOwner: $eventOwner, eventTimestamp_lt: $currentTimestamp }
     ) {
       id
       eventID
@@ -28,11 +28,11 @@ export default function MyPastEvents() {
   useConnectWallet();
 
   const eventOwner = active ? account.toLowerCase() : "";
-  const [eventTimestamp, setEventTimestamp] = useState(
+  const [currentTimestamp, setEventTimestamp] = useState(
     new Date().getTime().toString()
   );
   const { loading, error, data } = useQuery(MY_PAST_EVENTS, {
-    variables: { eventOwner, eventTimestamp },
+    variables: { eventOwner, currentTimestamp },
   });
 
   if (loading)
