@@ -9,9 +9,14 @@ import useConnectWallet from "../../hooks/useConnectWallet";
 import ConnectBtn from "../../components/ConnectBtn";
 import { ethers } from "ethers";
 import abiJSON from "../../utils/Web3RSVP.json";
+import { useState } from "react";
+import Alert from "../../components/Alert";
 
 function Event({ event }) {
   const { active, account } = useWeb3React();
+  const [success, setSuccess] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(null)
 
   console.log("THIS EVENT:", event);
   const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
@@ -47,18 +52,25 @@ function Event({ event }) {
           signer
         );
 
-        const newTxn = await await rsvpContract.createNewRSVP(event.id, {
+        const txn = await rsvpContract.createNewRSVP(event.id, {
           value: event.deposit,
           gasLimit: 300000,
         });
-        console.log("Mining...", newTxn.hash);
+        setLoading(true);
+        console.log("Mining...", txn.hash);
 
-        await newTxn.wait();
-        console.log("Mined -- ", newTxn.hash);
+        await txn.wait();
+        console.log("Mined -- ", txn.hash);
+        setSuccess(true);
+        setLoading(false);
+        setMessage("Your RSVP has been created successfully.");
       } else {
         console.log("Ethereum object doesn't exist!");
       }
     } catch (error) {
+      setSuccess(false);
+      setMessage(`Error: https://goerli.etherscan.io/tx/${txn.hash}`)
+      setLoading(false);
       console.log(error);
     }
   };
@@ -88,6 +100,9 @@ function Event({ event }) {
             <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
+          {loading && <Alert alertType={"loading"} alertBody={"Please wait"} triggerAlert={true}/> }
+        {success && <Alert alertType={"success"} alertBody={message} triggerAlert={true} color={"green"}/>}
+        {success===false && <Alert alertType={"failed"} alertBody={message} triggerAlert={true} color={"red"}/>}
             {active ? (
               checkIfAlreadyRSVPed() ? (
                 <p>You have already RSVPed to this event</p>
