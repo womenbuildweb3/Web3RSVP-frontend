@@ -6,7 +6,7 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/outline";
 
-export default function Alert({ alertType, alertBody, triggerAlert }) {
+export default function Alert({ alertType, alertBody, triggerAlert, color }) {
   const [showAlert, setShowAlert] = useState(triggerAlert);
 
   return (
@@ -20,7 +20,8 @@ export default function Alert({ alertType, alertBody, triggerAlert }) {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="absolute z-50 top-5 left-2/4 max-w-lg p-3 w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+      <div className="absolute z-50 top-5 left-2/4 max-w-lg p-3 w-full shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+      style={{backgroundColor: color}}>
         <div className="flex">
           <div className="flex-shrink-0">
             {alertType === "success" ? (
