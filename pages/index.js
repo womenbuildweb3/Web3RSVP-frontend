@@ -23,29 +23,8 @@ export default function Home({ events }) {
             Find, join, and create virtual events with your web3 frens!
           </p>
         </div>
-        {/* <form action="#" method="POST" className="mt-8 sm:flex">
-          <label htmlFor="email" className="sr-only">
-            Events
-          </label>
-          <input
-            type="text"
-            name="event"
-            id="event"
-            className="block w-full p-3 text-base rounded-full placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:flex-1 border border-gray-300"
-            placeholder="Search for events"
-          ></input>
-          <button
-            type="submit"
-            className="mt-3 w-full px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gray-800 shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:flex-shrink-0 sm:inline-flex sm:items-center sm:w-auto"
-          >
-            Search
-          </button>
-        </form> */}
       </section>
       <section className="py-12">
-        {/* <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-          Happening Soon
-        </h2> */}
         <ul
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"

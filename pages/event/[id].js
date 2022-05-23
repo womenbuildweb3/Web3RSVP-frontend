@@ -9,8 +9,6 @@ import useConnectWallet from "../../hooks/useConnectWallet";
 import ConnectBtn from "../../components/ConnectBtn";
 import { ethers } from "ethers";
 import abiJSON from "../../utils/Web3RSVP.json";
-import { useState } from "react";
-import { cloneElement } from "react/cjs/react.production.min";
 
 function Event({ event }) {
   const { active, account } = useWeb3React();
@@ -196,18 +194,6 @@ function Event({ event }) {
             </div>
           </div>
         </div>
-      </section>
-      <hr></hr>
-      <section className="py-12">
-        <h2 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-          More Events
-        </h2>
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          <li>TODO</li>
-        </ul>
       </section>
     </div>
   );
