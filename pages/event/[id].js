@@ -1,16 +1,21 @@
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
-import formatTimestamp from "../../utils/formatTimestamp";
-import EventCard from "../../components/EventCard";
+import { ethers } from "ethers";
 import { useWeb3React } from "@web3-react/core";
 import useConnectWallet from "../../hooks/useConnectWallet";
-import ConnectBtn from "../../components/ConnectBtn";
-import { ethers } from "ethers";
 import abiJSON from "../../utils/Web3RSVP.json";
-import { useState } from "react";
+import formatTimestamp from "../../utils/formatTimestamp";
+import ConnectBtn from "../../components/ConnectBtn";
 import Alert from "../../components/Alert";
+import {
+  EmojiHappyIcon,
+  TicketIcon,
+  UsersIcon,
+  LinkIcon,
+} from "@heroicons/react/outline";
 
 function Event({ event }) {
   const { active, account } = useWeb3React();
@@ -125,7 +130,20 @@ function Event({ event }) {
             )}
             {active ? (
               checkIfAlreadyRSVPed() ? (
-                <p>You have already RSVPed to this event</p>
+                <>
+                  <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full text-indigo-700 border-2 border-indigo-100">
+                    You have RSVPed!
+                  </span>
+                  <div className="flex item-center">
+                    <LinkIcon className="w-6 mr-2" />
+                    <a
+                      className="text-indigo-800 truncate hover:underline"
+                      href={event.link}
+                    >
+                      {event.link}
+                    </a>
+                  </div>
+                </>
               ) : (
                 <button
                   type="button"
@@ -138,94 +156,19 @@ function Event({ event }) {
             ) : (
               <ConnectBtn />
             )}
-
-            <p className="inline-flex gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              {event.totalRSVPs}/{event.maxCapacity} attending
-            </p>
-            <p className="inline-flex gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-                />
-              </svg>
-              1 RSVP per wallet
-            </p>
-            <p className="inline-flex gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-              Hosted by {event.eventOwner}
-              {/* 0x123456abcdef... */}
-            </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 gap-1 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>{" "}
-                Share
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 gap-1 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <svg
-                  className="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-                Tweet
-              </button>
+            <div className="flex item-center">
+              <UsersIcon className="w-6 mr-2" />
+              <span className="truncate">
+                {event.totalRSVPs}/{event.maxCapacity} attending
+              </span>
+            </div>
+            <div className="flex item-center">
+              <TicketIcon className="w-6 mr-2" />
+              <span className="truncate">1 RSVP per wallet</span>
+            </div>
+            <div className="flex items-center">
+              <EmojiHappyIcon className="w-10 mr-2" />
+              <span className="truncate">Hosted by {event.eventOwner}</span>
             </div>
           </div>
         </div>

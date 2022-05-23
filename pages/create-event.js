@@ -20,9 +20,9 @@ export default function CreateEvent() {
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
-  const [success, setSuccess] = useState(null)
-  const [message, setMessage] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [success, setSuccess] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
   const contractABI = abiJSON.abi;
@@ -63,7 +63,8 @@ export default function CreateEvent() {
     try {
       const { ethereum } = window;
 
-      if (ethereum) { //checking for eth object in the window, see if they have wallet connected
+      if (ethereum) {
+        //checking for eth object in the window, see if they have wallet connected
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         console.log("contractABI", contractABI);
@@ -92,20 +93,18 @@ export default function CreateEvent() {
         setLoading(true);
         console.log("Minting...", txn.hash);
 
-
         await txn.wait();
         console.log("Minted -- ", txn.hash);
         console.log("Whats in here", txn);
         setSuccess(true);
         setLoading(false);
         setMessage("Your event has been created successfully.");
-        
       } else {
         console.log("Ethereum object doesn't exist!");
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(`There was an errror creating your event: ${error}`)
+      setMessage(`There was an errror creating your event: ${error}`);
       setLoading(false);
       console.log(error);
     }
@@ -121,9 +120,29 @@ export default function CreateEvent() {
         />
       </Head>
       <section className="py-12">
-        {loading && <Alert alertType={"loading"} alertBody={"Please wait"} triggerAlert={true}/> }
-        {success && <Alert alertType={"success"} alertBody={message} triggerAlert={true} color={"green"}/>}
-        {success===false && <Alert alertType={"failed"} alertBody={message} triggerAlert={true} color={"red"}/>}
+        {loading && (
+          <Alert
+            alertType={"loading"}
+            alertBody={"Please wait"}
+            triggerAlert={true}
+          />
+        )}
+        {success && (
+          <Alert
+            alertType={"success"}
+            alertBody={message}
+            triggerAlert={true}
+            color={"green"}
+          />
+        )}
+        {success === false && (
+          <Alert
+            alertType={"failed"}
+            alertBody={message}
+            triggerAlert={true}
+            color={"red"}
+          />
+        )}
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
           Create your virtual event
         </h1>
