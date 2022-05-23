@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useWeb3React } from "@web3-react/core";
 import useConnectWallet from "../../hooks/useConnectWallet";
@@ -26,6 +27,7 @@ export default function MyPastRSVPs() {
   useConnectWallet();
 
   const id = active ? account.toLowerCase() : "";
+  const [eventTimestamp, setEventTimestamp] = useState(new Date().getTime());
   const { loading, error, data } = useQuery(MY_PAST_RSVPS, {
     variables: { id },
   });
@@ -53,15 +55,19 @@ export default function MyPastRSVPs() {
         >
           {data &&
             data.account &&
-            data.account.rsvps.map((rsvp) => (
-              <li key={rsvp.event.id}>
-                <EventCard
-                  id={rsvp.event.id}
-                  name={rsvp.event.name}
-                  eventTimestamp={rsvp.event.eventTimestamp}
-                />
-              </li>
-            ))}
+            data.account.rsvps.map(function (rsvp) {
+              if (rsvp.event.eventTimestamp < eventTimestamp) {
+                return (
+                  <li key={rsvp.event.id}>
+                    <EventCard
+                      id={rsvp.event.id}
+                      name={rsvp.event.name}
+                      eventTimestamp={rsvp.event.eventTimestamp}
+                    />
+                  </li>
+                );
+              }
+            })}
         </ul>
       ) : (
         <div className="flex flex-col items-center py-8">
