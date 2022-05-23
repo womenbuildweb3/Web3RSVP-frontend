@@ -47,7 +47,6 @@ export default function MyPastEvents() {
         <p>`Error! ${error.message}`</p>
       </Dashboard>
     );
-  // if (data) console.log(data);
 
   return (
     <Dashboard page="events" isUpcoming={false}>

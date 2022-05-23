@@ -14,9 +14,9 @@ import Alert from "../../components/Alert";
 
 function Event({ event }) {
   const { active, account } = useWeb3React();
-  const [success, setSuccess] = useState(null)
-  const [message, setMessage] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [success, setSuccess] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   console.log("THIS EVENT:", event);
   const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
@@ -69,7 +69,7 @@ function Event({ event }) {
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(`Error: https://goerli.etherscan.io/tx/${txn.hash}`)
+      setMessage(`Error: https://goerli.etherscan.io/tx/${txn.hash}`);
       setLoading(false);
       console.log(error);
     }
@@ -100,9 +100,29 @@ function Event({ event }) {
             <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
-          {loading && <Alert alertType={"loading"} alertBody={"Please wait"} triggerAlert={true}/> }
-        {success && <Alert alertType={"success"} alertBody={message} triggerAlert={true} color={"green"}/>}
-        {success===false && <Alert alertType={"failed"} alertBody={message} triggerAlert={true} color={"red"}/>}
+            {loading && (
+              <Alert
+                alertType={"loading"}
+                alertBody={"Please wait"}
+                triggerAlert={true}
+              />
+            )}
+            {success && (
+              <Alert
+                alertType={"success"}
+                alertBody={message}
+                triggerAlert={true}
+                color={"green"}
+              />
+            )}
+            {success === false && (
+              <Alert
+                alertType={"failed"}
+                alertBody={message}
+                triggerAlert={true}
+                color={"red"}
+              />
+            )}
             {active ? (
               checkIfAlreadyRSVPed() ? (
                 <p>You have already RSVPed to this event</p>

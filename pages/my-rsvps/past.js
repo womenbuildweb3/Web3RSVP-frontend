@@ -44,7 +44,6 @@ export default function MyPastRSVPs() {
         <p>`Error! ${error.message}`</p>
       </Dashboard>
     );
-  // if (data) console.log(data);
 
   return (
     <Dashboard page="rsvps" isUpcoming={false}>
