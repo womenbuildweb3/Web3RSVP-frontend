@@ -107,7 +107,7 @@ export default function CreateEvent() {
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(`There was an errror creating your event: ${error}`);
+      setMessage(`There was an error creating your event: ${error.message}`);
       setLoading(false);
       console.log(error);
     }
