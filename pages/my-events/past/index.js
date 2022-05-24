@@ -1,10 +1,11 @@
 import { useState } from "react";
+import Link from "next/link";
 import { gql, useQuery } from "@apollo/client";
 import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../hooks/useConnectWallet";
-import Dashboard from "../../components/Dashboard";
-import EventCard from "../../components/EventCard";
-import ConnectBtn from "../../components/ConnectBtn";
+import useConnectWallet from "../../../hooks/useConnectWallet";
+import Dashboard from "../../../components/Dashboard";
+import EventCard from "../../../components/EventCard";
+import ConnectBtn from "../../../components/ConnectBtn";
 
 const MY_PAST_EVENTS = gql`
   query Events($eventOwner: String, $currentTimestamp: String) {
@@ -63,6 +64,11 @@ export default function MyPastEvents() {
                   name={event.name}
                   eventTimestamp={event.eventTimestamp}
                 />
+                <Link href={`/my-events/past/${event.id}`}>
+                  <a className="text-indigo-800 text-sm truncate hover:underline">
+                    Confirm attendees
+                  </a>
+                </Link>
               </li>
             ))}
         </ul>

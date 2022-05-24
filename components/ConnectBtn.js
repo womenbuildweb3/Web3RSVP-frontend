@@ -5,10 +5,12 @@ export default function ConnectBtn() {
   const { activate } = useWeb3React();
 
   async function connect() {
+    console.log("connecting")
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
     } catch (err) {
+      console.log("hey")
       console.log(err);
     }
   }

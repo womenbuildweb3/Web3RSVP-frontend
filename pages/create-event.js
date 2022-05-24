@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,8 +23,9 @@ export default function CreateEvent() {
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [eventID, setEventID] = useState(null);
 
-  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
   useConnectWallet();
@@ -93,9 +94,11 @@ export default function CreateEvent() {
         setLoading(true);
         console.log("Minting...", txn.hash);
 
-        await txn.wait();
         console.log("Minted -- ", txn.hash);
-        console.log("Whats in here", txn);
+
+        let wait = await txn.wait();
+        setEventID(wait.events[0].args[0]);
+
         setSuccess(true);
         setLoading(false);
         setMessage("Your event has been created successfully.");
@@ -110,6 +113,15 @@ export default function CreateEvent() {
     }
   };
 
+  useEffect(() => {
+    // disable scroll on <input> elements of type number
+    document.addEventListener("wheel", (event) => {
+      if (document.activeElement.type === "number") {
+        document.activeElement.blur();
+      }
+    });
+  });
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
@@ -119,12 +131,13 @@ export default function CreateEvent() {
           content="Create your virtual event on the blockchain"
         />
       </Head>
-      <section className="py-12">
+      <section className="relative py-12">
         {loading && (
           <Alert
             alertType={"loading"}
             alertBody={"Please wait"}
             triggerAlert={true}
+            color={"white"}
           />
         )}
         {success && (
@@ -132,7 +145,7 @@ export default function CreateEvent() {
             alertType={"success"}
             alertBody={message}
             triggerAlert={true}
-            color={"green"}
+            color={"palegreen"}
           />
         )}
         {success === false && (
@@ -140,13 +153,15 @@ export default function CreateEvent() {
             alertType={"failed"}
             alertBody={message}
             triggerAlert={true}
-            color={"red"}
+            color={"palevioletred"}
           />
         )}
-        <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
-          Create your virtual event
-        </h1>
-        {active && (
+        {!success && (
+          <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
+            Create your virtual event
+          </h1>
+        )}
+        {active && !success && (
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -371,6 +386,12 @@ export default function CreateEvent() {
               </div>
             </div>
           </form>
+        )}
+        {success && eventID && (
+          <div>
+            Success! Please wait a few minutes, then check out your event page{" "}
+            <Link href={`/event/${eventID}`}>here</Link>
+          </div>
         )}
         {!active && (
           <section className="flex flex-col items-start py-8">

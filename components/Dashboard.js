@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import joinClassNames from "../utils/joinClassNames";
+import DashboardNav from "./DashboardNav";
 
 export default function Dashboard({ page, isUpcoming, children }) {
   const router = useRouter();
@@ -12,18 +13,6 @@ export default function Dashboard({ page, isUpcoming, children }) {
     router.push(href);
   };
 
-  let navigation = [
-    {
-      name: "My Events",
-      href: `/my-events/upcoming`,
-      current: page == "events",
-    },
-    {
-      name: "My RSVPs",
-      href: `/my-rsvps/upcoming`,
-      current: page == "rsvps",
-    },
-  ];
   let tabs = [
     {
       name: "Upcoming",
@@ -44,23 +33,7 @@ export default function Dashboard({ page, isUpcoming, children }) {
         <meta name="description" content="Manage your events and RSVPs" />
       </Head>
       <div className="flex flex-wrap py-8">
-        <nav className="space-y-1 w-60 mb-8 sm:w-2/12" aria-label="Sidebar">
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={joinClassNames(
-                item.current
-                  ? "bg-gray-100 text-gray-900"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                "flex items-center px-3 py-2 text-sm font-medium rounded-md"
-              )}
-              aria-current={item.current ? "page" : undefined}
-            >
-              <span className="truncate">{item.name}</span>
-            </a>
-          ))}
-        </nav>
+        <DashboardNav page={page} />
         <div className="sm:w-10/12 sm:pl-8">
           <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-4">
             {page == "events" ? "My Events" : "My RSVPs"}
