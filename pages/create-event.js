@@ -23,8 +23,9 @@ export default function CreateEvent() {
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [eventID, setEventID] = useState(null);
 
-  const contractAddress = "0xa836B4BD7863136C3153dB3B3c8Da741b5E4A591";
+  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
   useConnectWallet();
@@ -93,9 +94,11 @@ export default function CreateEvent() {
         setLoading(true);
         console.log("Minting...", txn.hash);
 
-        await txn.wait();
         console.log("Minted -- ", txn.hash);
-        console.log("Whats in here", txn);
+
+        let wait = await txn.wait()
+        setEventID(wait.events[0].args[0])
+
         setSuccess(true);
         setLoading(false);
         setMessage("Your event has been created successfully.");
@@ -125,6 +128,7 @@ export default function CreateEvent() {
             alertType={"loading"}
             alertBody={"Please wait"}
             triggerAlert={true}
+            color={"cyan"}
           />
         )}
         {success && (
@@ -143,10 +147,10 @@ export default function CreateEvent() {
             color={"red"}
           />
         )}
-        <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
+        {!success && <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
           Create your virtual event
-        </h1>
-        {active && (
+        </h1>}
+        {active && !success && (
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -371,6 +375,11 @@ export default function CreateEvent() {
               </div>
             </div>
           </form>
+        )}
+        {success && eventID && (
+          <div>
+            Success! Please wait a few minutes, then check out your event page <Link href={`/event/${eventID}`}>here</Link>
+          </div>
         )}
         {!active && (
           <section className="flex flex-col items-start py-8">
