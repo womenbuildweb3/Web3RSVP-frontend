@@ -1,4 +1,6 @@
 import { Web3Storage, File } from "web3.storage";
+import fs from "fs";
+import path from "path";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -32,7 +34,6 @@ async function storeFiles(files) {
 
 function makeFileObjects(body) {
   const buffer = Buffer.from(JSON.stringify(body));
-
   const files = [new File([buffer], "data.json")];
   return files;
 }
