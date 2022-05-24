@@ -128,6 +128,7 @@ export default function CreateEvent() {
             alertType={"loading"}
             alertBody={"Please wait"}
             triggerAlert={true}
+            color={"cyan"}
           />
         )}
         {success && (

@@ -115,6 +115,7 @@ function Event({ event }) {
                 alertType={"loading"}
                 alertBody={"Please wait"}
                 triggerAlert={true}
+                color={"cyan"}
               />
             )}
             {success && (
