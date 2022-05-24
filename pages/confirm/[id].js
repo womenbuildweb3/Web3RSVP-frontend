@@ -27,8 +27,8 @@ function Confirm({ event }) {
   const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
-  console.log("ACCOUNT:", account)
-  console.log("EVENT OWNER:", event.eventOwner)
+  console.log("ACCOUNT:", account);
+  console.log("EVENT OWNER:", event.eventOwner);
 
   useConnectWallet();
 
@@ -77,13 +77,13 @@ function Confirm({ event }) {
         <meta name="description" content={event.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section>
+      <section className="relative">
         {loading && (
           <Alert
             alertType={"loading"}
             alertBody={"Please wait"}
             triggerAlert={true}
-            color={"cyan"}
+            color={"white"}
           />
         )}
         {success && (
@@ -91,7 +91,7 @@ function Confirm({ event }) {
             alertType={"success"}
             alertBody={message}
             triggerAlert={true}
-            color={"green"}
+            color={"palegreen"}
           />
         )}
         {success === false && (
@@ -99,7 +99,7 @@ function Confirm({ event }) {
             alertType={"failed"}
             alertBody={message}
             triggerAlert={true}
-            color={"red"}
+            color={"palevioletred"}
           />
         )}
 

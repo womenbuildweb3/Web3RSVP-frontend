@@ -92,7 +92,31 @@ function Event({ event }) {
         <meta name="description" content={event.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="py-12">
+      <section className="relative py-12">
+        {loading && (
+          <Alert
+            alertType={"loading"}
+            alertBody={"Please wait"}
+            triggerAlert={true}
+            color={"white"}
+          />
+        )}
+        {success && (
+          <Alert
+            alertType={"success"}
+            alertBody={message}
+            triggerAlert={true}
+            color={"palegreen"}
+          />
+        )}
+        {success === false && (
+          <Alert
+            alertType={"failed"}
+            alertBody={message}
+            triggerAlert={true}
+            color={"palevioletred"}
+          />
+        )}
         <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6>
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 lg:mb-12">
           {event.name}
@@ -110,30 +134,6 @@ function Event({ event }) {
             <p>{event.description}</p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
-            {loading && (
-              <Alert
-                alertType={"loading"}
-                alertBody={"Please wait"}
-                triggerAlert={true}
-                color={"cyan"}
-              />
-            )}
-            {success && (
-              <Alert
-                alertType={"success"}
-                alertBody={message}
-                triggerAlert={true}
-                color={"green"}
-              />
-            )}
-            {success === false && (
-              <Alert
-                alertType={"failed"}
-                alertBody={message}
-                triggerAlert={true}
-                color={"red"}
-              />
-            )}
             {event.eventTimestamp > currentTimestamp ? (
               active ? (
                 checkIfAlreadyRSVPed() ? (
@@ -193,9 +193,7 @@ function Event({ event }) {
               </span>
             </div>
             <div className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <Link href={`/confirm/${event.id}`}>
-              Confirm Attendees
-              </Link>
+              <Link href={`/confirm/${event.id}`}>Confirm Attendees</Link>
             </div>
           </div>
         </div>
