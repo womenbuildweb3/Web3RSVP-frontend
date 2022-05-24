@@ -75,9 +75,10 @@ function Event({ event }) {
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(
-        `Error: ${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}tx/${txn.hash}`
-      );
+      // setMessage(
+      //   `Error: ${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}tx/${txn.hash}`
+      // );
+      setMessage("Error!");
       setLoading(false);
       console.log(error);
     }
