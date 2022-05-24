@@ -32,10 +32,10 @@ function Event({ event }) {
 
   function checkIfAlreadyRSVPed() {
     if (active) {
-      console.log("active");
+      // console.log("active");
       for (let i = 0; i < event.rsvps.length; i++) {
-        console.log(event.rsvps[i].attendee.id);
-        console.log("ACCOUNT:", account.toLowerCase());
+        // console.log(event.rsvps[i].attendee.id);
+        // console.log("ACCOUNT:", account.toLowerCase());
         const thisAccount = account.toLowerCase();
         if (event.rsvps[i].attendee.id == thisAccount) {
           return true;
@@ -75,7 +75,9 @@ function Event({ event }) {
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(`Error: https://goerli.etherscan.io/tx/${txn.hash}`);
+      setMessage(
+        `Error: ${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}tx/${txn.hash}`
+      );
       setLoading(false);
       console.log(error);
     }
@@ -175,7 +177,17 @@ function Event({ event }) {
             </div>
             <div className="flex items-center">
               <EmojiHappyIcon className="w-10 mr-2" />
-              <span className="truncate">Hosted by {event.eventOwner}</span>
+              <span className="truncate">
+                Hosted by{" "}
+                <a
+                  className="text-indigo-800 truncate hover:underline"
+                  href={`${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}address/${event.eventOwner}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {event.eventOwner}
+                </a>
+              </span>
             </div>
           </div>
         </div>
