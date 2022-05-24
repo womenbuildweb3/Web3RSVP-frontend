@@ -24,7 +24,7 @@ function Confirm({ event }) {
   const [loading, setLoading] = useState(null);
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
 
-  const contractAddress = "0xa836B4BD7863136C3153dB3B3c8Da741b5E4A591";
+  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
   console.log("ACCOUNT:", account)
