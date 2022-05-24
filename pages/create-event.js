@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -96,8 +96,8 @@ export default function CreateEvent() {
 
         console.log("Minted -- ", txn.hash);
 
-        let wait = await txn.wait()
-        setEventID(wait.events[0].args[0])
+        let wait = await txn.wait();
+        setEventID(wait.events[0].args[0]);
 
         setSuccess(true);
         setLoading(false);
@@ -113,6 +113,15 @@ export default function CreateEvent() {
     }
   };
 
+  useEffect(() => {
+    // disable scroll on <input> elements of type number
+    document.addEventListener("wheel", (event) => {
+      if (document.activeElement.type === "number") {
+        document.activeElement.blur();
+      }
+    });
+  });
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
@@ -122,13 +131,13 @@ export default function CreateEvent() {
           content="Create your virtual event on the blockchain"
         />
       </Head>
-      <section className="py-12">
+      <section className="relative py-12">
         {loading && (
           <Alert
             alertType={"loading"}
             alertBody={"Please wait"}
             triggerAlert={true}
-            color={"cyan"}
+            color={"white"}
           />
         )}
         {success && (
@@ -136,7 +145,7 @@ export default function CreateEvent() {
             alertType={"success"}
             alertBody={message}
             triggerAlert={true}
-            color={"green"}
+            color={"palegreen"}
           />
         )}
         {success === false && (
@@ -144,12 +153,14 @@ export default function CreateEvent() {
             alertType={"failed"}
             alertBody={message}
             triggerAlert={true}
-            color={"red"}
+            color={"palevioletred"}
           />
         )}
-        {!success && <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
-          Create your virtual event
-        </h1>}
+        {!success && (
+          <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
+            Create your virtual event
+          </h1>
+        )}
         {active && !success && (
           <form
             onSubmit={handleSubmit}
@@ -378,7 +389,8 @@ export default function CreateEvent() {
         )}
         {success && eventID && (
           <div>
-            Success! Please wait a few minutes, then check out your event page <Link href={`/event/${eventID}`}>here</Link>
+            Success! Please wait a few minutes, then check out your event page{" "}
+            <Link href={`/event/${eventID}`}>here</Link>
           </div>
         )}
         {!active && (

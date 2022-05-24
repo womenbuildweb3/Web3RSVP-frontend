@@ -85,7 +85,7 @@ function PastEvent({ event }) {
               alertType={"loading"}
               alertBody={"Please wait"}
               triggerAlert={true}
-              color={"cyan"}
+              color={"white"}
             />
           )}
           {success && (
@@ -93,7 +93,7 @@ function PastEvent({ event }) {
               alertType={"success"}
               alertBody={message}
               triggerAlert={true}
-              color={"green"}
+              color={"palegreen"}
             />
           )}
           {success === false && (
@@ -101,7 +101,7 @@ function PastEvent({ event }) {
               alertType={"failed"}
               alertBody={message}
               triggerAlert={true}
-              color={"red"}
+              color={"palevioletred"}
             />
           )}
           {active ? (
