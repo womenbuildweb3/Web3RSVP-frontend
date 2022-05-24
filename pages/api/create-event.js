@@ -1,4 +1,5 @@
-import { Web3Storage, File } from "web3.storage";
+import { Web3Storage, File, getFilesFromPath } from "web3.storage";
+const { join, resolve } = require("path");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -13,9 +14,9 @@ export default async function handler(req, res) {
 async function createEvent(req, res) {
   const body = req.body;
   try {
-    const files = makeFileObjects(body);
+    const files = await makeFileObjects(body);
     const cid = await storeFiles(files);
-    console.log("stored files with cid:", cid);
+    // console.log("stored files with cid:", cid);
     return res.status(200).json({ success: true, cid: cid });
   } catch (err) {
     return res
@@ -30,10 +31,14 @@ async function storeFiles(files) {
   return cid;
 }
 
-function makeFileObjects(body) {
+async function makeFileObjects(body) {
   const buffer = Buffer.from(JSON.stringify(body));
 
-  const files = [new File([buffer], "data.json")];
+  const imageDirectory = resolve(process.cwd(), "public/images/event.png");
+  const files = await getFilesFromPath(imageDirectory);
+
+  files.push(new File([buffer], "data.json"));
+  console.log(files);
   return files;
 }
 
