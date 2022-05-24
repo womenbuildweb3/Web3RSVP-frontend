@@ -19,7 +19,7 @@ function PastEvent({ event }) {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractAddress = "0xa836B4BD7863136C3153dB3B3c8Da741b5E4A591";
   const contractABI = abiJSON.abi;
 
   useConnectWallet();
