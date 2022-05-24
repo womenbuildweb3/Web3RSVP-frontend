@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
@@ -189,6 +190,11 @@ function Event({ event }) {
                   {event.eventOwner}
                 </a>
               </span>
+            </div>
+            <div className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <Link href={`/confirm/${event.id}`}>
+              Confirm Attendees
+              </Link>
             </div>
           </div>
         </div>
