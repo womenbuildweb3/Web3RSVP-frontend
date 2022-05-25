@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../hooks/useConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import Dashboard from "../../components/Dashboard";
 import EventCard from "../../components/EventCard";
-import ConnectBtn from "../../components/ConnectBtn";
 
 const MY_UPCOMING_RSVPS = gql`
   query Account($id: String) {
@@ -23,11 +22,9 @@ const MY_UPCOMING_RSVPS = gql`
 `;
 
 export default function MyUpcomingRSVPs() {
-  const { active, account } = useWeb3React();
+  const { data: account } = useAccount();
 
-  useConnectWallet();
-
-  const id = active ? account.toLowerCase() : "";
+  const id = account ? account.address.toLowerCase() : "";
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
   const { loading, error, data } = useQuery(MY_UPCOMING_RSVPS, {
     variables: { id },
@@ -48,7 +45,7 @@ export default function MyUpcomingRSVPs() {
 
   return (
     <Dashboard page="rsvps" isUpcoming={true}>
-      {active ? (
+      {account ? (
         <ul
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -73,7 +70,7 @@ export default function MyUpcomingRSVPs() {
       ) : (
         <div className="flex flex-col items-center py-8">
           <p className="mb-4">Please connect your wallet to view your rsvps</p>
-          <ConnectBtn />
+          <ConnectButton />
         </div>
       )}
     </Dashboard>

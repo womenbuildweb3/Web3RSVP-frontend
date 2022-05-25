@@ -1,36 +1,23 @@
 import { useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import { ethers } from "ethers";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../hooks/useConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import abiJSON from "../../utils/Web3RSVP.json";
-import formatTimestamp from "../../utils/formatTimestamp";
-import ConnectBtn from "../../components/ConnectBtn";
 import Alert from "../../components/Alert";
-import {
-  EmojiHappyIcon,
-  TicketIcon,
-  UsersIcon,
-  LinkIcon,
-} from "@heroicons/react/outline";
 
 function Confirm({ event }) {
-  const { active, account } = useWeb3React();
+  const { data: account } = useAccount();
+
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
 
-  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
+  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
-
-  console.log("ACCOUNT:", account);
-  console.log("EVENT OWNER:", event.eventOwner);
-
-  useConnectWallet();
 
   const confirmAllAttendees = async () => {
     try {
@@ -40,7 +27,7 @@ function Confirm({ event }) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const rsvpContract = new ethers.Contract(
-          contractAddress,
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           contractABI,
           signer
         );
@@ -103,10 +90,10 @@ function Confirm({ event }) {
           />
         )}
 
-        {!active && (
+        {!account && (
           <section className="flex flex-col items-start py-8">
             <p className="mb-4">Please connect your wallet to create events.</p>
-            <ConnectBtn />
+            <ConnectButton />
           </section>
         )}
 

@@ -1,22 +1,44 @@
-import Layout from "../components/Layout";
-import "../styles/globals.css";
-import { Web3ReactProvider } from "@web3-react/core";
-import Web3 from "web3";
+import "@rainbow-me/rainbowkit/styles.css";
+import {
+  apiProvider,
+  configureChains,
+  getDefaultWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import { chain, createClient, WagmiProvider } from "wagmi";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
+import Layout from "../components/Layout";
+import "../styles/globals.css";
 
-function getLibrary(provider) {
-  return new Web3(provider);
-}
+const { chains, provider } = configureChains(
+  [chain.polygon],
+  [
+    apiProvider.infura(process.env.NEXT_PUBLIC_INFURA_ID),
+    apiProvider.fallback(),
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: "web3rsvp",
+  chains,
+});
+
+const wagmiClient = createClient({
+  connectors,
+  provider,
+});
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <ApolloProvider client={client}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Web3ReactProvider>
-    </ApolloProvider>
+    <WagmiProvider client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ApolloProvider client={client}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
+      </RainbowKitProvider>
+    </WagmiProvider>
   );
 }

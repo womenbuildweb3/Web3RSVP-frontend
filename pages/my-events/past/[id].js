@@ -4,25 +4,22 @@ import Link from "next/link";
 import { gql } from "@apollo/client";
 import client from "../../../apollo-client";
 import { ethers } from "ethers";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../../hooks/useConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import abiJSON from "../../../utils/Web3RSVP.json";
 import formatTimestamp from "../../../utils/formatTimestamp";
 import DashboardNav from "../../../components/DashboardNav";
 import Alert from "../../../components/Alert";
-import ConnectBtn from "../../../components/ConnectBtn";
 
 function PastEvent({ event }) {
-  const { active } = useWeb3React();
+  const { data: account } = useAccount();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
+  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
-
-  useConnectWallet();
 
   const confirmAttendee = async (attendee) => {
     try {
@@ -32,7 +29,7 @@ function PastEvent({ event }) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const rsvpContract = new ethers.Contract(
-          contractAddress,
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           contractABI,
           signer
         );
@@ -104,7 +101,7 @@ function PastEvent({ event }) {
               color={"palevioletred"}
             />
           )}
-          {active ? (
+          {account ? (
             <section>
               <Link href="/my-events/past">
                 <a className="text-indigo-800 text-sm hover:underline">
@@ -167,7 +164,7 @@ function PastEvent({ event }) {
               </div>
             </section>
           ) : (
-            <ConnectBtn />
+            <ConnectButton />
           )}
         </div>
       </div>
@@ -179,7 +176,6 @@ export default PastEvent;
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  console.log(id);
 
   const { data } = await client.query({
     query: gql`

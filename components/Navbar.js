@@ -1,24 +1,13 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../hooks/useConnectWallet";
-import ConnectBtn from "./ConnectBtn";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useDisconnect } from "wagmi";
 import joinClassNames from "../utils/joinClassNames";
 
 export default function Navbar() {
-  const { active, account, deactivate } = useWeb3React();
-
-  async function disconnect() {
-    try {
-      deactivate();
-      localStorage.setItem("isWalletConnected", false);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useConnectWallet();
+  const { data: account } = useAccount();
+  const { disconnect } = useDisconnect();
 
   return (
     <header className="bg-white border-b-2 border-gray-100">
@@ -31,16 +20,18 @@ export default function Navbar() {
           </div>
           <div className="ml-10 space-x-4 flex items-center">
             <Link href="/create-event">
-              <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Create Event
               </a>
             </Link>
-            {active ? (
-              <Menu as="div" className="relative inline-block text-left">
+            {account ? (
+              <Menu as="div" className="relative z-10 inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex items-center px-2.5 py-2 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 w-32 cursor-pointer">
+                  <Menu.Button className="inline-flex items-center px-2.5 py-2 rounded-md text-sm font-medium bg-indigo-100 text-indigo-800 w-32 cursor-pointer">
                     <div className="w-12 h-3 mr-1 bg-indigo-400 rounded-full"></div>
-                    <p className="text-ellipsis overflow-hidden">{account}</p>
+                    <p className="text-ellipsis overflow-hidden">
+                      {account.address}
+                    </p>
                   </Menu.Button>
                 </div>
                 <Transition
@@ -55,11 +46,11 @@ export default function Navbar() {
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Menu.Item>
-                        {({ active }) => (
+                        {({ account }) => (
                           <a
                             href={`/my-events/upcoming`}
                             className={joinClassNames(
-                              active
+                              account
                                 ? "bg-gray-100 text-gray-900"
                                 : "text-gray-700",
                               "block px-4 py-2 text-sm"
@@ -70,14 +61,14 @@ export default function Navbar() {
                         )}
                       </Menu.Item>
                       <Menu.Item>
-                        {({ active }) => (
+                        {({ account }) => (
                           <a
-                            onClick={disconnect}
+                            onClick={() => disconnect()}
                             className={joinClassNames(
-                              active
+                              account
                                 ? "bg-gray-100 text-gray-900"
                                 : "text-gray-700",
-                              "block px-4 py-2 text-sm"
+                              "block px-4 py-2 text-sm cursor-pointer"
                             )}
                           >
                             Log Out
@@ -89,7 +80,7 @@ export default function Navbar() {
                 </Transition>
               </Menu>
             ) : (
-              <ConnectBtn />
+              <ConnectButton />
             )}
           </div>
         </div>

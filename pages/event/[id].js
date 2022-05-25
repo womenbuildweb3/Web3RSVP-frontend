@@ -4,11 +4,10 @@ import Link from "next/link";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import { ethers } from "ethers";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../hooks/useConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import abiJSON from "../../utils/Web3RSVP.json";
 import formatTimestamp from "../../utils/formatTimestamp";
-import ConnectBtn from "../../components/ConnectBtn";
 import Alert from "../../components/Alert";
 import {
   EmojiHappyIcon,
@@ -18,25 +17,21 @@ import {
 } from "@heroicons/react/outline";
 
 function Event({ event }) {
-  const { active, account } = useWeb3React();
+  const { data: account } = useAccount();
+
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
 
-  console.log("THIS EVENT:", event);
-  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
+  // console.log("THIS EVENT:", event);
+  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
-  useConnectWallet();
-
   function checkIfAlreadyRSVPed() {
-    if (active) {
-      // console.log("active");
+    if (account) {
       for (let i = 0; i < event.rsvps.length; i++) {
-        // console.log(event.rsvps[i].attendee.id);
-        // console.log("ACCOUNT:", account.toLowerCase());
-        const thisAccount = account.toLowerCase();
+        const thisAccount = account.address.toLowerCase();
         if (event.rsvps[i].attendee.id == thisAccount) {
           return true;
         }
@@ -53,7 +48,7 @@ function Event({ event }) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const rsvpContract = new ethers.Contract(
-          contractAddress,
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           contractABI,
           signer
         );
@@ -129,7 +124,7 @@ function Event({ event }) {
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
             {event.eventTimestamp > currentTimestamp ? (
-              active ? (
+              account ? (
                 checkIfAlreadyRSVPed() ? (
                   <>
                     <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full text-teal-800 bg-teal-100">
@@ -155,7 +150,7 @@ function Event({ event }) {
                   </button>
                 )
               ) : (
-                <ConnectBtn />
+                <ConnectButton />
               )
             ) : (
               <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full border-2 border-gray-200">
