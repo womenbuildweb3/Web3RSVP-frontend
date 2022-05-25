@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
 import { ethers } from "ethers";
 import abiJSON from "../utils/Web3RSVP.json";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../hooks/useConnectWallet";
-import ConnectBtn from "../components/ConnectBtn";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 
 export default function CreateEvent() {
-  const { active } = useWeb3React();
+  const { data: account } = useAccount();
 
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -25,10 +23,8 @@ export default function CreateEvent() {
   const [loading, setLoading] = useState(null);
   const [eventID, setEventID] = useState(null);
 
-  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
+  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
-
-  useConnectWallet();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -70,7 +66,7 @@ export default function CreateEvent() {
         const signer = provider.getSigner();
         console.log("contractABI", contractABI);
         const rsvpContract = new ethers.Contract(
-          contractAddress,
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           contractABI,
           signer
         ); // instantiating new connection to the contract
@@ -161,7 +157,7 @@ export default function CreateEvent() {
             Create your virtual event
           </h1>
         )}
-        {active && !success && (
+        {account && !success && (
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -296,58 +292,6 @@ export default function CreateEvent() {
                   />
                 </div>
               </div>
-
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="cover-photo"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Cover photo
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Please add a cover photo
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <div className="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <div className="flex text-sm text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-full font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                          accept="image/*"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="about"
@@ -393,10 +337,10 @@ export default function CreateEvent() {
             <Link href={`/event/${eventID}`}>here</Link>
           </div>
         )}
-        {!active && (
+        {!account && (
           <section className="flex flex-col items-start py-8">
             <p className="mb-4">Please connect your wallet to create events.</p>
-            <ConnectBtn />
+            <ConnectButton />
           </section>
         )}
       </section>

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { gql, useQuery } from "@apollo/client";
-import { useWeb3React } from "@web3-react/core";
-import useConnectWallet from "../../../hooks/useConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import Dashboard from "../../../components/Dashboard";
 import EventCard from "../../../components/EventCard";
-import ConnectBtn from "../../../components/ConnectBtn";
 
 const MY_PAST_EVENTS = gql`
   query Events($eventOwner: String, $currentTimestamp: String) {
@@ -25,11 +24,9 @@ const MY_PAST_EVENTS = gql`
 `;
 
 export default function MyPastEvents() {
-  const { active, account } = useWeb3React();
+  const { data: account } = useAccount();
 
-  useConnectWallet();
-
-  const eventOwner = active ? account.toLowerCase() : "";
+  const eventOwner = account ? account.address.toLowerCase() : "";
   const [currentTimestamp, setEventTimestamp] = useState(
     new Date().getTime().toString()
   );
@@ -52,7 +49,7 @@ export default function MyPastEvents() {
 
   return (
     <Dashboard page="events" isUpcoming={false}>
-      {active ? (
+      {account ? (
         <ul
           role="list"
           className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
@@ -77,7 +74,7 @@ export default function MyPastEvents() {
       ) : (
         <div className="flex flex-col items-center py-8">
           <p className="mb-4">Please connect your wallet to view your events</p>
-          <ConnectBtn />
+          <ConnectButton />
         </div>
       )}
     </Dashboard>
