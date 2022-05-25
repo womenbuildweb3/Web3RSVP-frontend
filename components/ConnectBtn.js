@@ -2,15 +2,17 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "../components/wallet/connectors";
 
 export default function ConnectBtn() {
-  const { activate } = useWeb3React();
+  const { activate, chainId } = useWeb3React();
 
   async function connect() {
-    console.log("connecting")
+    console.log("connecting");
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
+      if (chainId != null && chainId != 80001) {
+        console.log("switch pls");
+      }
     } catch (err) {
-      console.log("hey")
       console.log(err);
     }
   }

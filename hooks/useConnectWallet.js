@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "../components/wallet/connectors";
 
 function useConnectWallet() {
-  const { activate } = useWeb3React();
+  const { activate, chainId } = useWeb3React();
 
   useEffect(() => {
     const connectWalletOnPageLoad = async () => {
@@ -15,9 +15,12 @@ function useConnectWallet() {
           console.log(err);
         }
       }
+      if (chainId != null && chainId != 80001) {
+        console.log("switch pls");
+      }
     };
     connectWalletOnPageLoad();
-  }, [activate]);
+  }, [activate, chainId]);
 }
 
 export default useConnectWallet;
