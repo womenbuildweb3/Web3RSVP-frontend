@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import { ethers } from "ethers";
@@ -124,12 +123,7 @@ function Event({ event }) {
         <div className="flex flex-wrap-reverse lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-24 xl:pr-32">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-                alt="event image"
-                layout="fill"
-                objectFit="cover"
-              ></Image>
+              <img src={event.imageURL} alt="event image"></img>
             </div>
             <p>{event.description}</p>
           </div>
@@ -223,6 +217,7 @@ export async function getServerSideProps(context) {
           deposit
           totalRSVPs
           totalConfirmedAttendees
+          imageURL
           rsvps {
             id
             attendee {

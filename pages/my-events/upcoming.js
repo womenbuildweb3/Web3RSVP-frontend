@@ -18,6 +18,7 @@ const MY_UPCOMING_EVENTS = gql`
       eventTimestamp
       maxCapacity
       totalRSVPs
+      imageURL
     }
   }
 `;
@@ -63,6 +64,7 @@ export default function MyUpcomingEvents() {
                   id={event.id}
                   name={event.name}
                   eventTimestamp={event.eventTimestamp}
+                  imageURL={event.imageURL}
                 />
               </li>
             ))}
