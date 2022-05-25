@@ -9,6 +9,7 @@ const UPCOMING_EVENTS = gql`
       id
       name
       eventTimestamp
+      imageURL
     }
   }
 `;
@@ -47,6 +48,7 @@ export default function Home() {
                 id={event.id}
                 name={event.name}
                 eventTimestamp={event.eventTimestamp}
+                imageURL={event.imageURL}
               />
             </li>
           ))}
