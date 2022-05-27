@@ -25,7 +25,7 @@ function Event({ event }) {
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
 
   // console.log("THIS EVENT:", event);
-  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
+  const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
   function checkIfAlreadyRSVPed() {
@@ -48,7 +48,8 @@ function Event({ event }) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const rsvpContract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+//           process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          contractAddress,
           contractABI,
           signer
         );
