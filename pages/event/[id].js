@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image"
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import { ethers } from "ethers";
@@ -118,7 +119,7 @@ function Event({ event }) {
         <div className="flex flex-wrap-reverse lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-24 xl:pr-32">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-              <img src={event.imageURL} alt="event image"></img>
+              <Image src={event.imageURL} alt="event image" layout="fill"/>
             </div>
             <p>{event.description}</p>
           </div>
