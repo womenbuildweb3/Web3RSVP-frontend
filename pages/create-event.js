@@ -18,8 +18,9 @@ export default function CreateEvent() {
   const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
+  const [ticketPrice, setTicketPrice] = useState();
 
-  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractAddress = "0x9E8B6676DdD8D9Cd0934836BB23A4E3E9DB1E052";
   const contractABI = abiJSON.abi;
 
   useConnectWallet();
@@ -221,6 +222,45 @@ export default function CreateEvent() {
                   />
                 </div>
               </div>
+              
+
+
+
+
+
+
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="ticket-price"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Ticket Price
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Require a ticket price in ETH
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="number"
+                    name="ticket-price"
+                    id="ticket-price"
+                    min="0"
+                    step="any"
+                    inputMode="decimal"
+                    placeholder="0.00"
+                    className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    value={ticketPrice}
+                    onChange={(e) => setTicketPrice(e.target.value)}
+                  />
+                </div>
+              </div>
+
+
+
+
+
+              
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label

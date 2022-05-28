@@ -14,7 +14,7 @@ function Event({ event }) {
   const { active, account } = useWeb3React();
 
   console.log("THIS EVENT:", event);
-  const contractAddress = "0x355cf64d7B0587656B49eB1f4890804De076e021";
+  const contractAddress = "0x9E8B6676DdD8D9Cd0934836BB23A4E3E9DB1E052";
   const contractABI = abiJSON.abi;
 
   useConnectWallet();
