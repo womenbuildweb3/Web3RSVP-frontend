@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { ethers } from "ethers";
-import abiJSON from "../utils/Web3RSVP.json";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
+import connectContract from "../utils/connectContract";
 
 export default function CreateEvent() {
   const { data: account } = useAccount();
@@ -22,9 +22,6 @@ export default function CreateEvent() {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
   const [eventID, setEventID] = useState(null);
-
-  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
-  const contractABI = abiJSON.abi;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -58,20 +55,9 @@ export default function CreateEvent() {
 
   const createEvent = async (cid) => {
     try {
-      const { ethereum } = window;
+      const rsvpContract = connectContract()
 
-      if (ethereum) {
-        //checking for eth object in the window, see if they have wallet connected
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        console.log("contractABI", contractABI);
-        const rsvpContract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-          contractABI,
-          signer
-        ); // instantiating new connection to the contract
-        console.log("rsvpContract", rsvpContract);
-
+      if (rsvpContract) {
         let deposit = ethers.utils.parseEther(refund);
         let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
         let eventTimestamp = eventDateAndTime.getTime();
@@ -99,7 +85,7 @@ export default function CreateEvent() {
         setLoading(false);
         setMessage("Your event has been created successfully.");
       } else {
-        console.log("Ethereum object doesn't exist!");
+        console.log("Error getting contract.");
       }
     } catch (error) {
       setSuccess(false);
@@ -250,7 +236,7 @@ export default function CreateEvent() {
                 >
                   Refundable deposit
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Require a refundable deposit (in ETH) to reserve one spot at
+                    Require a refundable deposit (in MATIC) to reserve one spot at
                     your event
                   </p>
                 </label>
@@ -334,7 +320,7 @@ export default function CreateEvent() {
         {success && eventID && (
           <div>
             Success! Please wait a few minutes, then check out your event page{" "}
-            <Link href={`/event/${eventID}`}>here</Link>
+            <span className="font-bold"><Link href={`/event/${eventID}`}>here</Link></span>
           </div>
         )}
         {!account && (

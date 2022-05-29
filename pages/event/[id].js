@@ -7,7 +7,7 @@ import client from "../../apollo-client";
 import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import abiJSON from "../../utils/Web3RSVP.json";
+import connectContract from "../../utils/connectContract";
 import formatTimestamp from "../../utils/formatTimestamp";
 import Alert from "../../components/Alert";
 import {
@@ -25,10 +25,6 @@ function Event({ event }) {
   const [loading, setLoading] = useState(null);
   const [currentTimestamp, setEventTimestamp] = useState(new Date().getTime());
 
-  // console.log("THIS EVENT:", event);
-  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
-  const contractABI = abiJSON.abi;
-
   function checkIfAlreadyRSVPed() {
     if (account) {
       for (let i = 0; i < event.rsvps.length; i++) {
@@ -43,17 +39,9 @@ function Event({ event }) {
 
   const newRSVP = async () => {
     try {
-      const { ethereum } = window;
+      const rsvpContract = connectContract()
 
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const rsvpContract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-          contractABI,
-          signer
-        );
-
+      if (rsvpContract) {
         const txn = await rsvpContract.createNewRSVP(event.id, {
           value: event.deposit,
           gasLimit: 300000,
@@ -67,13 +55,10 @@ function Event({ event }) {
         setLoading(false);
         setMessage("Your RSVP has been created successfully.");
       } else {
-        console.log("Ethereum object doesn't exist!");
+        console.log("Error getting contract.");
       }
     } catch (error) {
       setSuccess(false);
-      // setMessage(
-      //   `Error: ${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}tx/${txn.hash}`
-      // );
       setMessage("Error!");
       setLoading(false);
       console.log(error);
@@ -147,7 +132,7 @@ function Event({ event }) {
                     className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={newRSVP}
                   >
-                    RSVP for {ethers.utils.formatEther(event.deposit)} ETH
+                    RSVP for {ethers.utils.formatEther(event.deposit)} MATIC
                   </button>
                 )
               ) : (
