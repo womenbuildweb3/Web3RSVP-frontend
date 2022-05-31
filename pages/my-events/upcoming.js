@@ -45,27 +45,30 @@ export default function MyUpcomingEvents() {
         <p>`Error! ${error.message}`</p>
       </Dashboard>
     );
-  // if (data) console.log(data);
 
   return (
     <Dashboard page="events" isUpcoming={true}>
       {account ? (
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          {data &&
-            data.events.map((event) => (
-              <li key={event.id}>
-                <EventCard
-                  id={event.id}
-                  name={event.name}
-                  eventTimestamp={event.eventTimestamp}
-                  imageURL={event.imageURL}
-                />
-              </li>
-            ))}
-        </ul>
+        <div>
+          {data && data.events.length == 0 && <p>No upcoming events found</p>}
+          {data && data.events.length > 0 && (
+            <ul
+              role="list"
+              className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+            >
+              {data.events.map((event) => (
+                <li key={event.id}>
+                  <EventCard
+                    id={event.id}
+                    name={event.name}
+                    eventTimestamp={event.eventTimestamp}
+                    imageURL={event.imageURL}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       ) : (
         <div className="flex flex-col items-center py-8">
           <p className="mb-4">Please connect your wallet to view your events</p>
