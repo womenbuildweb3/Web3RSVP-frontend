@@ -50,27 +50,31 @@ export default function MyPastEvents() {
   return (
     <Dashboard page="events" isUpcoming={false}>
       {account ? (
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          {data &&
-            data.events.map((event) => (
-              <li key={event.id}>
-                <EventCard
-                  id={event.id}
-                  name={event.name}
-                  eventTimestamp={event.eventTimestamp}
-                  imageURL={event.imageURL}
-                />
-                <Link href={`/my-events/past/${event.id}`}>
-                  <a className="text-indigo-800 text-sm truncate hover:underline">
-                    Confirm attendees
-                  </a>
-                </Link>
-              </li>
-            ))}
-        </ul>
+        <div>
+          {data && data.events.length == 0 && <p>No past events found</p>}
+          {data && data.events.length > 0 && (
+            <ul
+              role="list"
+              className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+            >
+              {data.events.map((event) => (
+                <li key={event.id}>
+                  <EventCard
+                    id={event.id}
+                    name={event.name}
+                    eventTimestamp={event.eventTimestamp}
+                    imageURL={event.imageURL}
+                  />
+                  <Link href={`/my-events/past/${event.id}`}>
+                    <a className="text-indigo-800 text-sm truncate hover:underline">
+                      Confirm attendees
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       ) : (
         <div className="flex flex-col items-center py-8">
           <p className="mb-4">Please connect your wallet to view your events</p>

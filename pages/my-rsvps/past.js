@@ -42,31 +42,35 @@ export default function MyPastRSVPs() {
         <p>`Error! ${error.message}`</p>
       </Dashboard>
     );
+  if (data) console.log(data);
 
   return (
     <Dashboard page="rsvps" isUpcoming={false}>
       {account ? (
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          {data &&
-            data.account &&
-            data.account.rsvps.map(function (rsvp) {
-              if (rsvp.event.eventTimestamp < currentTimestamp) {
-                return (
-                  <li key={rsvp.event.id}>
-                    <EventCard
-                      id={rsvp.event.id}
-                      name={rsvp.event.name}
-                      eventTimestamp={rsvp.event.eventTimestamp}
-                      imageURL={event.imageURL}
-                    />
-                  </li>
-                );
-              }
-            })}
-        </ul>
+        <div>
+          {data && !data.account && <p>No past RSVPs found</p>}
+          {data && data.account && (
+            <ul
+              role="list"
+              className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+            >
+              {data.account.rsvps.map(function (rsvp) {
+                if (rsvp.event.eventTimestamp < currentTimestamp) {
+                  return (
+                    <li key={rsvp.event.id}>
+                      <EventCard
+                        id={rsvp.event.id}
+                        name={rsvp.event.name}
+                        eventTimestamp={rsvp.event.eventTimestamp}
+                        imageURL={event.imageURL}
+                      />
+                    </li>
+                  );
+                }
+              })}
+            </ul>
+          )}
+        </div>
       ) : (
         <div className="flex flex-col items-center py-8">
           <p className="mb-4">Please connect your wallet to view your rsvps</p>
