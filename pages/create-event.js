@@ -7,7 +7,6 @@ import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import connectContract from "../utils/connectContract";
 import getRandomInt from "../utils/getRandomInt";
-import { use } from "chai";
 
 export default function CreateEvent() {
   const { data: account } = useAccount();
