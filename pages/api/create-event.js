@@ -13,6 +13,7 @@ export default async function handler(req, res) {
 
 async function createEvent(req, res) {
   const body = req.body;
+  console.log("this is the body, is my image file in here?", body)
   try {
     const files = await makeFileObjects(body);
     const cid = await storeFiles(files);
@@ -34,7 +35,7 @@ async function storeFiles(files) {
 async function makeFileObjects(body) {
   const buffer = Buffer.from(JSON.stringify(body));
 
-  const imageDirectory = resolve(process.cwd(), "public/images/event.png");
+  const imageDirectory = resolve(process.cwd(), `public/images/${body.image}`);
   const files = await getFilesFromPath(imageDirectory);
 
   files.push(new File([buffer], "data.json"));

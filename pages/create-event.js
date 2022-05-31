@@ -6,6 +6,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import connectContract from "../utils/connectContract";
+import getRandomInt from "../utils/getRandomInt";
+import { use } from "chai";
 
 export default function CreateEvent() {
   const { data: account } = useAccount();
@@ -17,6 +19,7 @@ export default function CreateEvent() {
   const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
+  const [image, setImage] = useState();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -30,6 +33,7 @@ export default function CreateEvent() {
       name: eventName,
       description: eventDescription,
       link: eventLink,
+      image: image
     };
 
     try {
@@ -102,6 +106,8 @@ export default function CreateEvent() {
         document.activeElement.blur();
       }
     });
+    //@dev: this isnt the best because it updates everytime an action gets taken, probably should move this somewhere else
+    setImage(getRandomInt())
   });
 
   return (

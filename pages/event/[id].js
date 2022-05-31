@@ -212,6 +212,7 @@ export async function getServerSideProps(context) {
       id: id,
     },
   });
+  //todo: edit the subgraph to read the image instead of harcoding the image we're using right now
 
   return {
     props: {
