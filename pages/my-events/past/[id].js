@@ -14,6 +14,8 @@ import Alert from "../../../components/Alert";
 function PastEvent({ event }) {
   const { data: account } = useAccount();
 
+  console.log("event", event);
+
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
