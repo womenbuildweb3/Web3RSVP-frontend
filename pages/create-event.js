@@ -6,6 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import connectContract from "../utils/connectContract";
+import getRandomImage from "../utils/getRandomImage";
 
 export default function CreateEvent() {
   const { data: account } = useAccount();
@@ -17,6 +18,7 @@ export default function CreateEvent() {
   const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
+  const [image, setImage] = useState();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -30,6 +32,7 @@ export default function CreateEvent() {
       name: eventName,
       description: eventDescription,
       link: eventLink,
+      image: getRandomImage(),
     };
 
     try {
@@ -55,7 +58,7 @@ export default function CreateEvent() {
 
   const createEvent = async (cid) => {
     try {
-      const rsvpContract = connectContract()
+      const rsvpContract = connectContract();
 
       if (rsvpContract) {
         let deposit = ethers.utils.parseEther(refund);
@@ -236,8 +239,8 @@ export default function CreateEvent() {
                 >
                   Refundable deposit
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Require a refundable deposit (in MATIC) to reserve one spot at
-                    your event
+                    Require a refundable deposit (in MATIC) to reserve one spot
+                    at your event
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -320,7 +323,9 @@ export default function CreateEvent() {
         {success && eventID && (
           <div>
             Success! Please wait a few minutes, then check out your event page{" "}
-            <span className="font-bold"><Link href={`/event/${eventID}`}>here</Link></span>
+            <span className="font-bold">
+              <Link href={`/event/${eventID}`}>here</Link>
+            </span>
           </div>
         )}
         {!account && (
