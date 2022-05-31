@@ -62,7 +62,7 @@ export default function MyPastRSVPs() {
                         id={rsvp.event.id}
                         name={rsvp.event.name}
                         eventTimestamp={rsvp.event.eventTimestamp}
-                        imageURL={event.imageURL}
+                        imageURL={rsvp.event.imageURL}
                       />
                     </li>
                   );

@@ -61,7 +61,7 @@ export default function MyUpcomingRSVPs() {
                         id={rsvp.event.id}
                         name={rsvp.event.name}
                         eventTimestamp={rsvp.event.eventTimestamp}
-                        imageURL={event.imageURL}
+                        imageURL={rsvp.event.imageURL}
                       />
                     </li>
                   );
