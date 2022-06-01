@@ -18,7 +18,7 @@ export default function CreateEvent() {
   const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [image, setImage] = useState();
+  // const [image, setImage] = useState();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -67,7 +67,7 @@ export default function CreateEvent() {
         let eventDataCID = cid;
         console.log("deposit", deposit);
         console.log("eventTimestamp", eventTimestamp);
-        console.log("eventDataCID", eventDataCID);
+        console.log("eventDataCID", typeof eventDataCID);
 
         const txn = await rsvpContract.createNewEvent(
           eventTimestamp,
