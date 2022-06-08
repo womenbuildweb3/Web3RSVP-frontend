@@ -3,7 +3,7 @@ const { join, resolve } = require("path");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    return await createEvent(req, res);
+    return await storeEventData(req, res);
   } else {
     return res
       .status(405)
@@ -11,9 +11,9 @@ export default async function handler(req, res) {
   }
 }
 
-async function createEvent(req, res) {
+async function storeEventData(req, res) {
   const body = req.body;
-  console.log("this is the body, is my image file in here?", body)
+  console.log("this is the body, is my image file in here?", body);
   try {
     const files = await makeFileObjects(body);
     const cid = await storeFiles(files);
