@@ -70,9 +70,9 @@
         },
         {
           "indexed": false,
-          "internalType": "uint256",
-          "name": "ticketPrice",
-          "type": "uint256"
+          "internalType": "string",
+          "name": "eventDataCID",
+          "type": "string"
         }
       ],
       "name": "NewEventCreated",
@@ -151,13 +151,8 @@
           "type": "uint256"
         },
         {
-          "internalType": "uint256",
-          "name": "ticketPrice",
-          "type": "uint256"
-        },
-        {
           "internalType": "string",
-          "name": "eventName",
+          "name": "eventDataCID",
           "type": "string"
         }
       ],
@@ -180,54 +175,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "createevent",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "eventId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "string",
-          "name": "eventName",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "eventOwner",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "eventTimestamp",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "deposit",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "ticketPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxCapacity",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "paidOut",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "bytes32",
@@ -244,7 +191,7 @@
         },
         {
           "internalType": "string",
-          "name": "eventName",
+          "name": "eventDataCID",
           "type": "string"
         },
         {
@@ -260,11 +207,6 @@
         {
           "internalType": "uint256",
           "name": "deposit",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "ticketPrice",
           "type": "uint256"
         },
         {
@@ -289,7 +231,7 @@
           "type": "bytes32"
         }
       ],
-      "name": "withdrawMoney",
+      "name": "withdrawUnclaimedDeposits",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
