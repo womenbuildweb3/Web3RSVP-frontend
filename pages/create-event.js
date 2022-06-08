@@ -36,7 +36,7 @@ export default function CreateEvent() {
     };
 
     try {
-      const response = await fetch("/api/create-event", {
+      const response = await fetch("/api/store-event-data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
