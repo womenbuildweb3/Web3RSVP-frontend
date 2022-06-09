@@ -10,21 +10,6 @@ import formatTimestamp from "../../../utils/formatTimestamp";
 import DashboardNav from "../../../components/DashboardNav";
 import Alert from "../../../components/Alert";
 
-// const ConfirmButton = ({owner, account, eventID}) => {
-//   console.log("OWNER:", owner)
-//   console.log("ACCOUNT:", account?.address.toLowerCase())
-//   if(owner === account?.address.toLowerCase()){
-//     return (
-//       <div className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-//       <button>Confirm Attendees</button>
-//     </div>
-//     )
-//   }
-//   else{
-//     return <></>
-//   }
-// }
-
 function PastEvent({ event }) {
   const { data: account } = useAccount();
 
@@ -146,7 +131,8 @@ function PastEvent({ event }) {
               />
             )}
             {account ? (
-              account.address.toLowerCase() === event.eventOwner ? (
+              account.address.toLowerCase() ===
+              event.eventOwner.toLowerCase() ? (
                 <section>
                   <Link href="/my-events/past">
                     <a className="text-indigo-800 text-sm hover:underline">
