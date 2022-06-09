@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../../apollo-client";
@@ -17,21 +16,6 @@ import {
   LinkIcon,
 } from "@heroicons/react/outline";
 
-const ConfirmButton = ({owner, account, eventID}) => {
-  console.log("OWNER:", owner)
-  console.log("ACCOUNT:", account?.address.toLowerCase())
-  if(owner === account?.address.toLowerCase()){
-    return (
-      <div className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <button>Confirm Attendees</button>
-    </div>
-    )
-  } 
-  else{
-    return <></>
-  }
-}
-
 function Event({ event }) {
   const { data: account } = useAccount();
 
@@ -44,7 +28,7 @@ function Event({ event }) {
     if (account) {
       for (let i = 0; i < event.rsvps.length; i++) {
         const thisAccount = account.address.toLowerCase();
-        if (event.rsvps[i].attendee.id == thisAccount) {
+        if (event.rsvps[i].attendee.id.toLowerCase() == thisAccount) {
           return true;
         }
       }
@@ -184,7 +168,6 @@ function Event({ event }) {
                 </a>
               </span>
             </div>
-            <ConfirmButton owner={event.eventOwner} account={account} eventID={event.id}/>
           </div>
         </div>
       </section>
