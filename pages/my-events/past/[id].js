@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { gql } from "@apollo/client";
 import client from "../../../apollo-client";
-import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import connectContract from "../../../utils/connectContract";
@@ -132,73 +131,78 @@ function PastEvent({ event }) {
               />
             )}
             {account ? (
-              <section>
-                <Link href="/my-events/past">
-                  <a className="text-indigo-800 text-sm hover:underline">
-                    &#8592; Back
-                  </a>
-                </Link>
-                <h6 className="text-sm mt-4 mb-2">
-                  {formatTimestamp(event.eventTimestamp)}
-                </h6>
-                <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
-                  {event.name}
-                </h1>
-                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                      <table className="min-w-full divide-y divide-gray-300">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                            >
-                              Attendee
-                            </th>
-                            <th
-                              scope="col"
-                              className="text-right py-3.5 pl-3 pr-4 sm:pr-6"
-                            >
-                              <button
-                                type="button"
-                                className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={confirmAllAttendees}
+              account.address.toLowerCase() ===
+              event.eventOwner.toLowerCase() ? (
+                <section>
+                  <Link href="/my-events/past">
+                    <a className="text-indigo-800 text-sm hover:underline">
+                      &#8592; Back
+                    </a>
+                  </Link>
+                  <h6 className="text-sm mt-4 mb-2">
+                    {formatTimestamp(event.eventTimestamp)}
+                  </h6>
+                  <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl mb-8">
+                    {event.name}
+                  </h1>
+                  <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-300">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th
+                                scope="col"
+                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                               >
-                                Confirm All
-                              </button>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                          {event.rsvps.map((rsvp) => (
-                            <tr key={rsvp.attendee.id}>
-                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                {rsvp.attendee.id}
-                              </td>
-                              <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                {checkIfConfirmed(event, rsvp.attendee.id) ? (
-                                  <p>Confirmed</p>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    className="text-indigo-600 hover:text-indigo-900"
-                                    onClick={() =>
-                                      confirmAttendee(rsvp.attendee.id)
-                                    }
-                                  >
-                                    Confirm attendee
-                                  </button>
-                                )}
-                              </td>
+                                Attendee
+                              </th>
+                              <th
+                                scope="col"
+                                className="text-right py-3.5 pl-3 pr-4 sm:pr-6"
+                              >
+                                <button
+                                  type="button"
+                                  className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  onClick={confirmAllAttendees}
+                                >
+                                  Confirm All
+                                </button>
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200 bg-white">
+                            {event.rsvps.map((rsvp) => (
+                              <tr key={rsvp.attendee.id}>
+                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                  {rsvp.attendee.id}
+                                </td>
+                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                  {checkIfConfirmed(event, rsvp.attendee.id) ? (
+                                    <p>Confirmed</p>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="text-indigo-600 hover:text-indigo-900"
+                                      onClick={() =>
+                                        confirmAttendee(rsvp.attendee.id)
+                                      }
+                                    >
+                                      Confirm attendee
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              ) : (
+                <p>You do not have permission to manage this event.</p>
+              )
             ) : (
               <ConnectButton />
             )}
@@ -221,6 +225,7 @@ export async function getServerSideProps(context) {
           id
           eventID
           name
+          eventOwner
           eventTimestamp
           maxCapacity
           totalRSVPs
