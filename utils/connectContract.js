@@ -18,7 +18,6 @@ function connectContract() {
             contractABI,
             signer
           ); // instantiating new connection to the contract
-          console.log("rsvpContract", rsvpContract);
         } else {
           console.log("Ethereum object doesn't exist!");
         }
