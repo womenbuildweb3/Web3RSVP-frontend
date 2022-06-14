@@ -1,14 +1,24 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-
 export default function CreateEvent() {
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState("");
+  const [refund, setRefund] = useState("");
+  const [eventLink, setEventLink] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
-  const handleSubmit = () => {
+
+  async function handleSubmit(e) {
+    e.preventDefault();
     console.log("Form submitted")
   }
+
   
+
   useEffect(() => {
     // disable scroll on <input> elements of type number
     document.addEventListener("wheel", (event) => {
@@ -28,10 +38,12 @@ export default function CreateEvent() {
         />
       </Head>
       <section className="relative py-12">
+    
+          <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
+            Create your virtual event
+          </h1>
         
-        <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-4">
-          Create your virtual event
-        </h1>
+     
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -51,6 +63,8 @@ export default function CreateEvent() {
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                     required
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
                   />
                 </div>
               </div>
@@ -73,6 +87,8 @@ export default function CreateEvent() {
                       type="date"
                       className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                       required
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
                     />
                   </div>
                   <div className="w-1/2">
@@ -82,6 +98,8 @@ export default function CreateEvent() {
                       type="time"
                       className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
                       required
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
                     />
                   </div>
                 </div>
@@ -105,6 +123,8 @@ export default function CreateEvent() {
                     min="1"
                     placeholder="100"
                     className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    value={maxCapacity}
+                    onChange={(e) => setMaxCapacity(e.target.value)}
                   />
                 </div>
               </div>
@@ -130,6 +150,8 @@ export default function CreateEvent() {
                     inputMode="decimal"
                     placeholder="0.00"
                     className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    value={refund}
+                    onChange={(e) => setRefund(e.target.value)}
                   />
                 </div>
               </div>
@@ -151,6 +173,8 @@ export default function CreateEvent() {
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                     required
+                    value={eventLink}
+                    onChange={(e) => setEventLink(e.target.value)}
                   />
                 </div>
               </div>
@@ -170,6 +194,8 @@ export default function CreateEvent() {
                     name="about"
                     rows={10}
                     className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
                   />
                 </div>
               </div>
@@ -191,13 +217,11 @@ export default function CreateEvent() {
             </div>
           </form>
         
-       
-{/*       
-          <section className="flex flex-col items-start py-8">
+
+          {/* <section className="flex flex-col items-start py-8">
             <p className="mb-4">Please connect your wallet to create events.</p>
-            <ConnectButton />
           </section> */}
-          
+
       </section>
     </div>
   );
