@@ -4,6 +4,7 @@ import {
   EmojiHappyIcon,
   TicketIcon,
   UsersIcon,
+  LinkIcon
 } from "@heroicons/react/outline";
 
 function Event() {
