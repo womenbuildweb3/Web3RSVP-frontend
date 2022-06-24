@@ -18,7 +18,6 @@ function PastEvent({ event }) {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  // const contractAddress = "0x54e8A3aFf5F52F9eD452156E850654c452BCBefE";
   const contractABI = abiJSON.abi;
 
   const confirmAttendee = async (attendee) => {
