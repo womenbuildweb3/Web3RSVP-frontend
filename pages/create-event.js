@@ -18,7 +18,6 @@ export default function CreateEvent() {
   const [refund, setRefund] = useState("");
   const [eventLink, setEventLink] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  // const [image, setImage] = useState();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -65,9 +64,6 @@ export default function CreateEvent() {
         let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
         let eventTimestamp = eventDateAndTime.getTime();
         let eventDataCID = cid;
-        console.log("deposit", deposit);
-        console.log("eventTimestamp", eventTimestamp);
-        console.log("eventDataCID", typeof eventDataCID);
 
         const txn = await rsvpContract.createNewEvent(
           eventTimestamp,
@@ -76,14 +72,13 @@ export default function CreateEvent() {
           eventDataCID,
           { gasLimit: 900000 }
         );
+
         setLoading(true);
         console.log("Minting...", txn.hash);
-
+        let wait = await txn.wait();
         console.log("Minted -- ", txn.hash);
 
-        let wait = await txn.wait();
         setEventID(wait.events[0].args[0]);
-
         setSuccess(true);
         setLoading(false);
         setMessage("Your event has been created successfully.");
