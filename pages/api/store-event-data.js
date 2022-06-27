@@ -1,5 +1,5 @@
 import { Web3Storage, File, getFilesFromPath } from "web3.storage";
-const { join, resolve } = require("path");
+const { resolve } = require("path");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -13,11 +13,9 @@ export default async function handler(req, res) {
 
 async function storeEventData(req, res) {
   const body = req.body;
-  console.log("this is the body, is my image file in here?", body);
   try {
     const files = await makeFileObjects(body);
     const cid = await storeFiles(files);
-    // console.log("stored files with cid:", cid);
     return res.status(200).json({ success: true, cid: cid });
   } catch (err) {
     return res
