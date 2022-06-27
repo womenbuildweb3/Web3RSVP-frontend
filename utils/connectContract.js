@@ -19,7 +19,7 @@ function connectContract() {
             signer
           ); // instantiating new connection to the contract
         } else {
-          console.log("Ethereum object doesn't exist!");
+          throw new Error('Please connect to the Polygon Mumbai network.')
         }
       } catch (error) {
         console.log("ERROR:", error);
