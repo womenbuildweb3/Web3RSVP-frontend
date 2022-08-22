@@ -30,6 +30,10 @@ export default function MyPastRSVPs() {
     variables: { id },
   });
 
+  const pastRsvps = data?.account?.rsvps.filter(
+    (rsvp) => rsvp.event.eventTimestamp < currentTimestamp
+  );
+
   if (loading)
     return (
       <Dashboard page="rsvps" isUpcoming={false}>
@@ -48,7 +52,9 @@ export default function MyPastRSVPs() {
     <Dashboard page="rsvps" isUpcoming={false}>
       {account ? (
         <div>
-          {data && !data.account && <p>No past RSVPs found</p>}
+          {data && (!data.account || pastRsvps.length == 0) && (
+            <p>No past RSVPs found</p>
+          )}
           {data && data.account && (
             <ul
               role="list"
